@@ -1,0 +1,34 @@
+{
+	"name": "Redskin-Frontend",
+	"dockerComposeFile": [
+		"docker-compose.yml"
+	],
+	"service": "devcontainer",
+	"workspaceFolder": "/src",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"firsttris.vscode-jest-runner",
+				"esbenp.prettier-vscode",
+				"eamodio.gitlens",
+				"ms-vsliveshare.vsliveshare",
+				"rtbenfield.vscode-jest-test-adapter",
+				"dbaeumer.vscode-eslint",
+				"pflannery.vscode-versionlens",
+				"christian-kohler.path-intellisense",
+				"christian-kohler.npm-intellisense",
+				"GitHub.copilot",
+				"donjayamanne.git-extension-pack",
+				"IronGeek.vscode-env",
+				"naumovs.color-highlight"
+			],
+			"settings": {
+				"prettier.endOfLine": "auto",
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "esbenp.prettier-vscode"
+			}
+		}
+	},
+	"shutdownAction": "stopCompose",
+	"remoteUser": "node"
+}

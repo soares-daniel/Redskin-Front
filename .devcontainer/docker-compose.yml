@@ -2,18 +2,10 @@ version: '3.8'
 
 services:
   devcontainer:
-    env_file:
-      - ./.devcontainer/.env
-    image: redskin/react-devcontainer:0.2
     build: 
-      context: .
-      dockerfile: .devcontainer/Dockerfile
-    container_name: redskin-dev-container
-    hostname: redskin-dev.local
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile
     volumes:
-      - .:/usr/src/app
+      - ..:/usr/src/app
     ports:
       - 3000:3000
-    environment:
-      NODE_ENV: development
-    command: sleep infinity

@@ -1,18 +1,17 @@
-# Build
+# Use the official Node.js 14 image.
+# https://hub.docker.com/_/node
 FROM node:20
-RUN npm install -g npm@latest
 
-# Install pre-requisites
-RUN apt-get update
-RUN apt-get install -y \
-    lsb-release \
-    curl
-
+# Create app directory
 WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
+
 RUN npm install
-RUN npm install -g yarn
-COPY . ./
-RUN if [ "${ENVIRONMENT}" = "development" ]; then npm install react-scripts@latest; fi
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
+
+# Bundle app source
+COPY . .
+
+CMD [ "npm", "run", "dev"]

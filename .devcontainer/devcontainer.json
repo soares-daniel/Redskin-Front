@@ -1,11 +1,11 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-	"name": "Redskin-Frontend",
-	"dockerComposeFile": [
-		"docker-compose.yml"
-	],
+	"name": "Redskin-Front",
+	"dockerComposeFile": ["./docker-compose.yml"],
 	"service": "devcontainer",
-	"workspaceFolder": "/src",
-	"customizations": {
+  	"workspaceFolder": "/usr/src/app",
+	  "customizations": {
 		"vscode": {
 			"extensions": [
 				"firsttris.vscode-jest-runner",

@@ -1,22 +1,3 @@
-// components/Layout.tsx
-/*
-import { FC, ReactNode } from "react";
-import Sidebar from "./sidebar";
-
-type LayoutProps = {
-  children: ReactNode;
-};
-
-const Layout: FC<LayoutProps> = ({ children }) => (
-  <div className="flex">
-    <Sidebar />
-    <main className="w-full">{children}</main>
-  </div>
-);
-
-export default Layout;
-*/
-// components/Layout.tsx
 import { FC, ReactNode } from "react";
 import Sidebar from "./sidebar";
 import Navbar from "./navbar";

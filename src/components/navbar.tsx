@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 import { FC } from "react";
 import Link from "next/link";
 

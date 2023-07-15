@@ -8,7 +8,7 @@ const Navbar: FC = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="w-full flex items-center justify-between p-6 shadow-md bg-red-50">
+    <nav className="w-full flex items-center justify-between p-6 shadow-md rounded-[15px] bg-[#FBF7F7]">
       <div className="flex gap-4">
         <Link href="/dashboard">
           <div

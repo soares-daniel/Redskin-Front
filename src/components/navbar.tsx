@@ -1,36 +1,43 @@
+"use client";
+
 import { FC } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const Navbar: FC = () => (
-  <nav className="bg-blue-500 text-white p-4">
-    <ul className="flex justify-end space-x-4">
-      <li>
-        <Link href="/dashboard/home">
-          <div className="cursor-pointer hover:text-gray-200">Home</div>
+const Navbar: FC = () => {
+  const pathname = usePathname();
+
+  return (
+    <nav className="w-full flex items-center justify-between p-6 shadow-md bg-red-50">
+      <div className="flex gap-4">
+        <Link href="/dashboard">
+          <div
+            className={`${
+              pathname === "/dashboard" ? "text-blue-600" : "text-gray-700"
+            } cursor-pointer`}
+          >
+            Dashboard
+          </div>
         </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/profile">
-          <div className="cursor-pointer hover:text-gray-200">Profile</div>
-        </Link>
-      </li>
-      <li>
         <Link href="/dashboard/settings">
-          <div className="cursor-pointer hover:text-gray-200">Settings</div>
+          <div
+            className={`${
+              pathname === "/dashboard/settings"
+                ? "text-blue-600"
+                : "text-gray-700"
+            } cursor-pointer`}
+          >
+            Settings
+          </div>
         </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/calendar">
-          <div className="cursor-pointer hover:text-gray-200">Calendar</div>
+      </div>
+      <div>
+        <Link href="/logout">
+          <div className="text-red-500">Logout</div>
         </Link>
-      </li>
-      <li>
-        <Link href="/dashboard/logout">
-          <div className="cursor-pointer hover:text-gray-200">Logout</div>
-        </Link>
-      </li>
-    </ul>
-  </nav>
-);
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;

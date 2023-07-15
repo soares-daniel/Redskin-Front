@@ -114,15 +114,15 @@
   dependencies:
     glob "7.1.7"
 
-"@next/swc-linux-arm64-gnu@13.4.4":
+"@next/swc-linux-x64-gnu@13.4.4":
   version "13.4.4"
-  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-gnu/-/swc-linux-arm64-gnu-13.4.4.tgz"
-  integrity sha512-+KZnDeMShYkpkqAvGCEDeqYTRADJXc6SY1jWXz+Uo6qWQO/Jd9CoyhTJwRSxvQA16MoYzvILkGaDqirkRNctyA==
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-13.4.4.tgz"
+  integrity sha512-PX706XcCHr2FfkyhP2lpf+pX/tUvq6/ke7JYnnr0ykNdEMo+sb7cC/o91gnURh4sPYSiZJhsF2gbIqg9rciOHQ==
 
-"@next/swc-linux-arm64-musl@13.4.4":
+"@next/swc-linux-x64-musl@13.4.4":
   version "13.4.4"
-  resolved "https://registry.npmjs.org/@next/swc-linux-arm64-musl/-/swc-linux-arm64-musl-13.4.4.tgz"
-  integrity sha512-evC1twrny2XDT4uOftoubZvW3EG0zs0ZxMwEtu/dDGVRO5n5pT48S8qqEIBGBUZYu/Xx4zzpOkIxx1vpWdE+9A==
+  resolved "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-13.4.4.tgz"
+  integrity sha512-TKUUx3Ftd95JlHV6XagEnqpT204Y+IsEa3awaYIjayn0MOGjgKZMZibqarK3B1FsMSPaieJf2FEAcu9z0yT5aA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -181,6 +181,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/date-arithmetic@*":
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/@types/date-arithmetic/-/date-arithmetic-4.1.1.tgz"
+  integrity sha512-o9ILUTMSRiOC73o7h30mgLpuDwOJWqMHZfnEIwNQlfZsGY6Kw2gK5Gz6nXAjNt9zm3Qpr12pM4FDqssfdtBzGA==
+
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
@@ -195,6 +200,15 @@
   version "15.7.5"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
+
+"@types/react-big-calendar@^1.6.4":
+  version "1.6.4"
+  resolved "https://registry.npmjs.org/@types/react-big-calendar/-/react-big-calendar-1.6.4.tgz"
+  integrity sha512-xAbdQ2cQhx71dsnacJ1knSGqTi6cD8odGi28AzCjA+N4bgpJjSyYo/fN1bG4ScfBAEQomSl/UoXYrSgUoJ0MGA==
+  dependencies:
+    "@types/date-arithmetic" "*"
+    "@types/prop-types" "*"
+    "@types/react" "*"
 
 "@types/react-dom@18.2.4":
   version "18.2.4"

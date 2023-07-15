@@ -2,18 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* Light mode */
+body {
+  background-color: #ffffff; /* white color */
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* Dark mode */
+body.dark {
+  background-color: #2d3748; /* dark gray color */
+}
+
+.rbc-calendar {
+  background-color: white;
+}
+
+.rbc-header,
+.rbc-day-slot {
+  border-color: black !important;
 }

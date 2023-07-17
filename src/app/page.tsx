@@ -8,3 +8,4 @@ export default function Home() {
     </main>
   );
 }
+// Compare this snippet from src/pages/dashboard.tsx:

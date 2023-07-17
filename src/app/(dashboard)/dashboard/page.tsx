@@ -27,7 +27,7 @@ export default function Dashboard() {
           ))}
         </div>
         <div className="w-3/4 border border-gray-400 mx-auto p-2">
-          <Calendar events={events} />
+          <Calendar />
         </div>
       </div>
     </Layout>

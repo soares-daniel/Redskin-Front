@@ -13,7 +13,7 @@ type EventCardProps = {
 };
 
 const EventCard: FC<EventCardProps> = ({ event }) => (
-  <div className="bg-white rounded p-4 shadow mb-4">
+  <div className="bg-white rounded shadow mb-4">
     <h3 className="text-xl">{event.title}</h3>
     <p>
       {event.start.toString()} - {event.end.toString()}

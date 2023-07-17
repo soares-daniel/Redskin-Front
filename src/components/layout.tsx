@@ -6,7 +6,7 @@ type LayoutProps = {
 };
 
 const Layout: FC<LayoutProps> = ({ children }) => (
-  <div className="flex h-screen bg-gray-200">
+  <div className="flex h-screen bg-white">
     <div className="flex flex-col w-full">
       <Navbar />
       <main className="flex-grow">{children}</main>

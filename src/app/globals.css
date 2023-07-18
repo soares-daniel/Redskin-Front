@@ -20,3 +20,15 @@ body.dark {
 .rbc-day-slot {
   border-color: black !important;
 }
+
+.event-type-1 {
+  background-color: red;
+}
+
+.event-type-2 {
+  background-color: blue;
+}
+
+.event-type-3 {
+  background-color: green;
+}

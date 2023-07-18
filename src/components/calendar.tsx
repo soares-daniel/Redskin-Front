@@ -12,6 +12,7 @@ export default function Calendar() {
   const stringifiedEvents = data.map((event) => ({
     ...event,
     id: event.id.toString(),
+    classNames: event.extendedProps.eventType,
   }));
 
   return (
@@ -19,6 +20,7 @@ export default function Calendar() {
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       events={stringifiedEvents}
+      eventClassNames={(info) => info.event.extendedProps.classNames}
     />
   );
 }

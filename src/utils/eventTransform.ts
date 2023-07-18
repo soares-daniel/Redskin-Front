@@ -36,7 +36,9 @@ export function transformEvents(apiEvents: any[]): EventDataTransformed[] {
       eventType: event.eventType,
       createdAt: new Date(event.createdAt), 
       updatedAt: new Date(event.updatedAt), 
+      classNames: `event-type-${event.eventType}`,
     },
+    
   }));
 }
 

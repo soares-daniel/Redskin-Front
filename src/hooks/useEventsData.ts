@@ -1,33 +1,28 @@
+// useEventsData.ts
 
 import { useState, useEffect } from 'react';
 import { fetchEvents } from '../controllers/calendarController';
 import { transformEvents } from '../utils/eventTransform';
-// Define the shape of an event object.
-interface Event {
-  id: number;
-  title: string;
-  start: Date;
-  end: Date;
-  extendedProps: {
-    description: string;
-    createdBy: number;
-    eventType: number;
-    createdAt: Date;
-    updatedAt: Date;
-  };
-}
+import { EventDataTransformed } from "../utils/eventTransform";
 
-const useEventsData = () => {
-  const [data, setData] = useState<Event[]>([]);
+export default function useEventsData() {
+  const [data, setData] = useState<EventDataTransformed[]>([]);
 
   useEffect(() => {
-    fetchEvents().then((apiEvents) => {
-      const events = transformEvents(apiEvents);
-      setData(events);
-    });
+    const fetchData = async () => {
+      try {
+        const apiEvents = await fetchEvents();
+        const events = transformEvents(apiEvents);
+        setData(events);
+      } catch (error) {
+        console.error("Error fetching events", error);
+        setData([]);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return data;
-};
+}
 
-export default useEventsData;

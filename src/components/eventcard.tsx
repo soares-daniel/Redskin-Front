@@ -1,19 +1,16 @@
 "use client"
 import { FC, useEffect, useState } from 'react';
-import { fetchEvents, EventDataTransformed } from '@/controllers/calendarController';
+import { fetchEvents } from '@/controllers/calendarController';
+import { EventDataTransformed } from '@/utils/eventTransform';
+import useEventsData from '@/hooks/useEventsData';
 
-const EventCard: FC = () => {
-  const [events, setEvents] = useState<EventDataTransformed[]>([]);
 
-  useEffect(() => {
-    fetchEvents().then((fetchedEvents) => {
-      setEvents(fetchedEvents);
-    });
-  }, []);
+export default function EventCard() {
+  const data = useEventsData();
 
   return (
     <div>
-      {events.map((event, index) => (
+      {data.map((event, index) => (
         <div className="bg-white rounded shadow mb-4 p-6" key={index}>
           <h3 className="text-xl font-bold">{event.title}</h3>
           <p className="text-sm text-gray-600">
@@ -38,7 +35,3 @@ const EventCard: FC = () => {
     </div>
   );
 };
-
-export default EventCard;
-
-

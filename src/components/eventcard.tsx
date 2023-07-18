@@ -20,8 +20,12 @@ export default function EventCard() {
           {event.extendedProps && (
             <>
               <p className="text-sm text-gray-600">
-                All day event: {event.extendedProps.description}
+                Time: {event.start.toString().slice(16, 21)} -{' '} {event.end.toString().slice(16, 21)}
               </p>
+              <p className="text-sm text-gray-600">
+                Description: {event.extendedProps.description}
+              </p>
+              
               <p className="text-sm text-gray-600">
                 Created by: {event.extendedProps.createdBy}
               </p>

@@ -1,5 +1,3 @@
-// useEventsData.ts
-
 import { useState, useEffect } from 'react';
 import { fetchEvents } from '../controllers/calendarController';
 import { transformEvents } from '../utils/eventTransform';

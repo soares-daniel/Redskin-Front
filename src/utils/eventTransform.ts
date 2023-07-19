@@ -1,5 +1,3 @@
-// eventTransform.ts
-
 export interface EventDataTransformed {
   id: number;
   title: string;

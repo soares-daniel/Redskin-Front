@@ -1,9 +1,10 @@
 
-const baseUrl = 'http://localhost:8000/api/events';
+const baseUrl = process.env.API_URL;
+import useSuperUserToken from '@/hooks/auth';
 
 export async function fetchEvents() {
   try {
-    const response = await fetch(baseUrl);
+    const response = await fetch('http://localhost:8000/api/events');
     console.log(response); //check
     return await response.json();
   } catch (error) {
@@ -31,10 +32,16 @@ export async function addEvent(event: any) {
   }
 }
 
+
 export async function deleteEvent(eventId: number) {
+  const token = useSuperUserToken();
+
   try {
-    const response = await fetch(`${baseUrl}/delete/${eventId}`, {
+    const response = await fetch(`${baseUrl}/events/delete/${eventId}`, {
       method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
     });
     console.log(response); //check
     return await response.json();

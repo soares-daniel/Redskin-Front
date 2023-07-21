@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { addEvent, deleteEvent, fetchEvents } from '@/controllers/calendarController';
@@ -9,10 +9,18 @@ import { transformEvents } from '@/utils/eventTransform';
 import { DateSelectArg, EventClickArg } from 'fullcalendar';
 import { createEventId } from './event-utils';
 import interactionPlugin from '@fullcalendar/interaction';
+import useSuperUserToken from '@/hooks/auth';
 
 
 export default function Calendar() {
   const data = useEventsData();
+  const token = useSuperUserToken(); // Call the hook
+
+  useEffect(() => {
+    if (token) {
+      console.log('Received auth token:', token); // Print the token to the terminal
+    }
+  }, [token]);
 
   //transform the data to the format required by FullCalendar
   const stringifiedEvents = data.map((event) => ({

@@ -14,7 +14,7 @@ export default function useDeleteEvent() {
     setError(null);
 
     try {
-        const response = await fetch(`/api/events/delete/${Number(eventId)}`, {
+        const response = await fetch(`http://localhost:8000/api/events/delete/${Number(eventId)}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -25,6 +25,7 @@ export default function useDeleteEvent() {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message);
+
       }
 
       const data = await response.json();

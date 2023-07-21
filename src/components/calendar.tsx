@@ -14,11 +14,12 @@ import useSuperUserToken from '@/hooks/auth';
 
 export default function Calendar() {
   const data = useEventsData();
-  const token = useSuperUserToken(); // Call the hook
+  const token = useSuperUserToken(); 
 
   useEffect(() => {
     if (token) {
-      console.log('Received auth token:', token); // Print the token to the terminal
+      // TEST: Print the token to the terminal
+      console.log('Received auth token:', token); 
     }
   }, [token]);
 
@@ -48,7 +49,7 @@ export default function Calendar() {
 
     calendarApi.addEvent(newEvent);
 
-    // Here you can call your API to store the event in the database
+    
     await addEvent(newEvent);
   }
 };

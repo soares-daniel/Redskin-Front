@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 
 
-const baseUrl = 'http://localhost:8000/api'; // replace with your base URL
+const baseUrl = 'http://localhost:8000/api';
 
 export default function useSuperUserToken() {
   const [token, setToken] = useState<string | null>(null);

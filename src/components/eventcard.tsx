@@ -4,9 +4,10 @@ import { fetchEvents } from '@/controllers/calendarController';
 import { EventDataTransformed } from '@/utils/eventTransform';
 import useEventsData from '@/hooks/useEventsData';
 import { Event } from '@/types/types';
+import { FullCalendarEvent } from '@/utils/eventTransform';
 
 
-export default function EventCard({ event }: { event: Event }) {
+export default function EventCard({ event }: { event: FullCalendarEvent }) {
   return (
     <div className="bg-white rounded shadow mb-4 p-6">
       <h3 className="text-xl font-bold">{event.title}</h3>

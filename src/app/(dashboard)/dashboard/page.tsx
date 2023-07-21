@@ -8,7 +8,11 @@ import useEventsData from "@/hooks/useEventsData";
 
 
 export default function Dashboard() {
-  const events = useEventsData();
+  const { data: events, loading, error } = useEventsData();
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (!Array.isArray(events)) return <p>No events to display</p>;
 
   return (
     <Layout>

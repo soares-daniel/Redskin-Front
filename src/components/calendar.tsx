@@ -10,11 +10,16 @@ import { DateSelectArg, EventClickArg } from 'fullcalendar';
 import { createEventId } from './event-utils';
 import interactionPlugin from '@fullcalendar/interaction';
 import useSuperUserToken from '@/hooks/auth';
+import { useCookies } from 'react-cookie';
 
 
 export default function Calendar() {
-  const data = useEventsData();
-  const token = useSuperUserToken(); 
+  const { data, loading, error } = useEventsData();
+  //const { addEvent } = useAddEvent();
+  //const { deleteEvent } = useDeleteEvent();
+  const token = useSuperUserToken();
+  const [cookies] = useCookies(['superUserToken']);
+  
 
   useEffect(() => {
     if (token) {
@@ -23,55 +28,32 @@ export default function Calendar() {
     }
   }, [token]);
 
-  //transform the data to the format required by FullCalendar
-  const stringifiedEvents = data.map((event) => ({
-    ...event,
-    id: event.id.toString(),
-    classNames: event.extendedProps.eventType,
-  }));
+  useEffect(() => {
+    console.log('Token from cookie:', cookies.superUserToken); // Print the token
+  }, [cookies]);
 
- const handleAddEvent = async (selectInfo: DateSelectArg) => {
-  let title = prompt('Please enter a new title for your event');
-  let calendarApi = selectInfo.view.calendar;
-  // clear date selection
-  calendarApi.unselect(); 
-
-  if (title) {
-    const newEvent = {
-      id: createEventId(),
-      title,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      createdBy: 0,
-      eventType: 0,
-      description: 'string',
-    };
-
-    calendarApi.addEvent(newEvent);
-
-    
-    await addEvent(newEvent);
-  }
-};
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   const handleDeleteEvent = async (clickInfo: EventClickArg) => {
     if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-       //remove from UI
-      clickInfo.event.remove();
       const eventId = Number(clickInfo.event.id);
-       //call API to delete the event from DB
       await deleteEvent(eventId);
+      // After deleting the event from the server, remove it from the calendar
+      clickInfo.event.remove();
     }
   };
+
+  
 
   return (
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
       selectable={true}
-      select={handleAddEvent}
+      //select={handleAddEvent}
       eventClick={handleDeleteEvent}
-      events={stringifiedEvents}
+      events={data}
       eventClassNames={(info) => info.event.extendedProps.classNames}
     />
   );

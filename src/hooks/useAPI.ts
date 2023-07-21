@@ -1,10 +1,10 @@
 //useAPI.ts
-
+require ('dotenv').config();
 import { useState, useEffect } from 'react';
 const baseUrl = 'http://localhost:8000/api/events';
 
-
 export function useFetchEvents() {
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);

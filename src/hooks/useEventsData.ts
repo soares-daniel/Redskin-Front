@@ -1,26 +1,19 @@
+
 import { useState, useEffect } from 'react';
-import { fetchEvents } from '../controllers/calendarController';
-import { transformEvents } from '../utils/eventTransform';
-import { EventDataTransformed } from "../utils/eventTransform";
+import { useFetchEvents } from './useAPI';
+import { transformEvents, FullCalendarEvent } from '@/utils/eventTransform';
 
 export default function useEventsData() {
-  const [data, setData] = useState<EventDataTransformed[]>([]);
+  const [data, setData] = useState<FullCalendarEvent[]>([]);
+  const { data: apiData, loading, error } = useFetchEvents();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const apiEvents = await fetchEvents();
-        const events = transformEvents(apiEvents);
-        setData(events);
-      } catch (error) {
-        console.error("Error fetching events", error);
-        setData([]);
-      }
-    };
+    if (apiData) {
+      const transformedData = transformEvents(apiData);
+      setData(transformedData);
+    }
+  }, [apiData]);
 
-    fetchData();
-  }, []);
-
-  return data;
+  return { data, loading, error };
 }
 

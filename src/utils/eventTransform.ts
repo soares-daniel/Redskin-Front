@@ -12,7 +12,11 @@ export interface EventDataTransformed {
   };
 }
 
-export function transformEvents(apiEvents: any[]): EventDataTransformed[] {
+export interface FullCalendarEvent extends Omit<EventDataTransformed, 'id'> {
+  id: string;
+}
+
+export function transformEvents(apiEvents: any[]): FullCalendarEvent[] {
   return apiEvents.map((event: {
     id: number;
     title: string;
@@ -24,7 +28,7 @@ export function transformEvents(apiEvents: any[]): EventDataTransformed[] {
     createdAt: string;
     updatedAt: string;
   }) => ({
-    id: event.id,
+    id: event.id.toString(), // Convert id to string
     title: event.title,
     start: new Date(event.startDate), 
     end: new Date(event.endDate), 
@@ -36,7 +40,6 @@ export function transformEvents(apiEvents: any[]): EventDataTransformed[] {
       updatedAt: new Date(event.updatedAt), 
       classNames: `event-type-${event.eventType}`,
     },
-    
   }));
 }
 

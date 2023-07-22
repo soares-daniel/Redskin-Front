@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "@/components/layout";
 import Calendar from "@/components/calendar";
 import EventCard from "@/components/eventcard";
@@ -13,14 +13,14 @@ export default function Dashboard() {
   const { data: events, loading, error } = useEventsData();
   
 
-  if (loading) return <p>Loading...</p>;
-  if (error) {
-    if (error.message === 'Not Authorized') {
+  useEffect(() => {
+    if (error && error.message === 'Not Authorized') {
       router.push('/login');
-      return null;
     }
-    return <p>Error: {error.message}</p>;
-  }
+  }, [error, router]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return null;
   if (!Array.isArray(events)) return <p>No events to display</p>;
 
   return (

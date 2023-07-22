@@ -1,13 +1,13 @@
 // useDeleteEvent.ts
 
 import { useState } from 'react';
-import { useCookies } from 'react-cookie';
+//import { useCookies } from 'react-cookie';
 
 export default function useDeleteEvent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deletedEvent, setDeletedEvent] = useState(null);
-  const [cookies] = useCookies(['superUserToken']);
+  //const [cookies] = useCookies(['superUserToken']);
 
   const deleteEvent = async (eventId: string) => {
     setLoading(true);
@@ -18,15 +18,15 @@ export default function useDeleteEvent() {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${cookies.superUserToken}`,
           },
+          credentials: 'include',
         });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message);
 
-      }
+      } 
 
       const data = await response.json();
       setDeletedEvent(data);

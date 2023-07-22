@@ -1,13 +1,23 @@
-import { Metadata } from "next";
-import { FC } from "react";
+"use client"
+import { useState } from 'react';
+import { useLogin } from '@/hooks/useLogin';
 
-export const metadata: Metadata = {
-  title: "Login",
-  description: "Login to your account",
-};
+export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, error } = useLogin();
 
-const LoginPage: FC = () => {
-  return <div>Login</div>;
-};
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    login(username, password);
+  };
 
-export default LoginPage;
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+      <button type="submit">Login</button>
+      {error && <p>{error}</p>}
+    </form>
+  );
+}

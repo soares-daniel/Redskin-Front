@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from 'react';
-import { useFetchEvents } from './useAPI';
+//import { useFetchEvents } from './useAPI';
 import { transformEvents, FullCalendarEvent } from '@/utils/eventTransform';
+import { useFetchEvents } from './useFetchEvents';
 
 export default function useEventsData() {
   const [data, setData] = useState<FullCalendarEvent[]>([]);

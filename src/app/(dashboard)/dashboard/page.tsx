@@ -28,7 +28,7 @@ export default function Dashboard() {
           <EventCard events={events} />
         </div>
         <div className="w-3/4 border border-gray-400 mx-auto p-2">
-          <Calendar />
+          <Calendar events={events}/>
         </div>
       </div>
     </Layout>

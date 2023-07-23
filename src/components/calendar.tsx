@@ -1,22 +1,26 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import useEventsData from '@/hooks/useEventsData';
-import { transformEvents } from '@/utils/eventTransform';
+import { FullCalendarEvent, transformEvents } from '@/utils/eventTransform';
 import { DateSelectArg, EventClickArg } from 'fullcalendar';
 import { createEventId } from './event-utils';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import useDeleteEvent from '@/hooks/useDeleteEvent';
+import EventPopup from './eventPopup';
 
 
-export default function Calendar() {
-  const { data, loading, error } = useEventsData();
+interface CalendarProps {
+  onDateClick: (date: Date) => void;
+}
+
+export default function Calendar({ events }: { events: FullCalendarEvent[] }) {
   const { deleteEvent } = useDeleteEvent();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedEvents, setSelectedEvents] = useState<FullCalendarEvent[]>([]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
 
   const handleDeleteEvent = async (clickInfo: EventClickArg) => {
     if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
@@ -27,17 +31,18 @@ export default function Calendar() {
     }
   };
 
-  
-
   return (
+  <div>
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
       selectable={true}
-      //select={handleAddEvent}
+      //dateClick={handleDateClick}
       eventClick={handleDeleteEvent}
-      events={data}
+      events={events}
       eventClassNames={(info) => info.event.extendedProps.classNames}
     />
+    
+  </div>
   );
 }

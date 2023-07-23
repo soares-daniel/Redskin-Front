@@ -1,27 +1,17 @@
+// useFetchEvents.ts
+
 import { useState, useEffect } from 'react';
+import { fetchData } from '@/utils/api';
 
 export function useFetchEvents() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const baseUrl = 'http://localhost:8000';
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchEvents = async () => {
       try {
-        const response = await fetch(`${baseUrl}/api/events/user`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-
-        if (!response.ok) {
-          throw new Error('Not Authorized');
-        }
-
-        const json = await response.json();
+        const json = await fetchData('/api/events/user');
         setData(json);
       } catch (error) {
         setError(error as Error);
@@ -30,7 +20,7 @@ export function useFetchEvents() {
       }
     };
 
-    fetchData();
+    fetchEvents();
   }, []);
 
   return { data, loading, error };

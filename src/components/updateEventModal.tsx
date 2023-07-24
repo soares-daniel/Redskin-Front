@@ -1,32 +1,45 @@
-// createEventModal.tsx
+// updateEventModal.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import useCreateEvent from '@/hooks/useCreateEvent';
+import useUpdateEvent from '@/hooks/useUpdateEvent';
 import "@/app/globals.css";
-import useEventsData from '@/hooks/useEventsData';
+import { FullCalendarEvent } from '@/utils/eventTransform';
 
-type CreateEventModalProps = {
+type UpdateEventModalProps = {
   isOpen: boolean;
   onRequestClose: () => void;
+  eventToEdit?: FullCalendarEvent;
 };
 
-export default function CreateEventModal({ isOpen, onRequestClose }: CreateEventModalProps) {
-  const { createEvent } = useCreateEvent();
-  const [eventType, setEventType] = useState(0);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const { addEvent } = useEventsData();
+export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }: UpdateEventModalProps) {
+  const { updateEvent } = useUpdateEvent();
+  const [eventType, setEventType] = useState(eventToEdit ? Number(eventToEdit.extendedProps.eventType) : 0);
+  const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
+  const [description, setDescription] = useState(eventToEdit ? eventToEdit.extendedProps.description : '');
+  const [startDate, setStartDate] = useState(eventToEdit ? eventToEdit.start.toISOString() : '');
+  const [endDate, setEndDate] = useState(eventToEdit ? eventToEdit.end.toISOString() : '');
+
+  useEffect(() => {
+    if (eventToEdit) {
+      setEventType(Number(eventToEdit.extendedProps.eventType));
+      setTitle(eventToEdit.title);
+      setDescription(eventToEdit.extendedProps.description);
+      setStartDate(eventToEdit.start.toISOString());
+      setEndDate(eventToEdit.end.toISOString());
+    }
+  }, [eventToEdit]);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log("handleSubmit");
     e.preventDefault();
 
-    const newEvent = await createEvent({ eventType, title, description, startDate, endDate });
+    if (!eventToEdit) return;
 
-    if (!newEvent) {
-      throw new Error('Failed to create event');
+    const updatedEvent = await updateEvent(eventToEdit.id, { eventType, title, description, startDate, endDate });
+
+    if (!updatedEvent) {
+      throw new Error('Failed to update event');
     }
 
     onRequestClose();
@@ -54,7 +67,7 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
         }
       }}
     >
-      <h2 className="modal-header">Create Event</h2>
+      <h2 className="modal-header">Update Event</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-field">
           <label>
@@ -110,7 +123,7 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
             />
           </label>
         </div>
-        <button type="submit">Create</button>
+        <button type="submit">Update</button>
       </form>
     </Modal>
   );

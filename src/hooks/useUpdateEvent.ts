@@ -21,6 +21,7 @@ export default function useUpdateEvent() {
     try {
       const data = await fetchData(`/api/events/update/${eventId}`, 'PUT', eventData);
       setUpdatedEvent(data);
+      return data;
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

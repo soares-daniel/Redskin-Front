@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetchData } from '@/utils/api';
+import { useCookies } from 'react-cookie';
 
 export function useLogin() {
   const [error, setError] = useState<string | null>(null);
+  const [cookies, setCookie] = useCookies(['userId']);
   const router = useRouter();
 
   const login = async (username: string, password: string) => {
@@ -14,6 +16,9 @@ export function useLogin() {
         username,
         password,
       });
+
+      // Store the user ID in a cookie
+      setCookie('userId', data.id, { path: '/', sameSite: 'strict'});
 
       router.push('/dashboard');
     } catch (error) {

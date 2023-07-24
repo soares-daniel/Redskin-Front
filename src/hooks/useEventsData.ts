@@ -13,7 +13,10 @@ export default function useEventsData() {
       setData(transformedData);
     }
   }, [apiData]);
+  const addEvent = (event: FullCalendarEvent) => {
+    setData(prevData => [...prevData, event]);
+  };
 
-  return { data, loading, error };
+  return { data, loading, error, addEvent };
 }
 

@@ -32,3 +32,76 @@ body.dark {
 .event-type-3 {
   background-color: green;
 }
+
+.calendar-grid {
+  z-index: 999;
+}
+
+.ReactModal__Overlay {
+  display: flex;
+  align-items: flex-start;  /* Align the content to the start of the overlay (the top) */
+  justify-content: center;
+  padding-top: 50px;  /* Add some padding to the top of the overlay to push the content down */
+  z-index: 10000 !important;
+}
+
+.ReactModal__Content {
+  z-index: 10001 !important;
+  width: 80%;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.form-field input, .form-field textarea {
+  width: 100%;  /* Make the input fields take up the full width of their parent */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2f7ed8;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="submit"]:hover {
+  background-color: #1c6abf;
+}
+
+
+.form-field input:focus, .form-field textarea:focus {
+  border-color: #7F9CF5;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(127, 156, 245, 0.5);
+}
+
+.modal-header {
+  font-size: 24px;
+  color: #2f7ed8;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #2f7ed8; /* add a border beneath the title */
+  padding-bottom: 10px; /* add some space between the title and the border */
+  font-family: 'Arial', sans-serif; /* change the font */
+}

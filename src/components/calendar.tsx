@@ -10,6 +10,8 @@ import { createEventId } from './event-utils';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import useDeleteEvent from '@/hooks/useDeleteEvent';
 import EventPopup from './eventPopup';
+import CreateEventModal from './createEventModal';
+import multiMonthPlugin from '@fullcalendar/multimonth'
 
 
 interface CalendarProps {
@@ -20,6 +22,14 @@ export default function Calendar({ events }: { events: FullCalendarEvent[] }) {
   const { deleteEvent } = useDeleteEvent();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedEvents, setSelectedEvents] = useState<FullCalendarEvent[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const customButtons = {
+    createEventButton: {
+      text: 'Create',
+      click: () => setIsModalOpen(true),
+    },
+  };
 
 
   const handleDeleteEvent = async (clickInfo: EventClickArg) => {
@@ -33,8 +43,16 @@ export default function Calendar({ events }: { events: FullCalendarEvent[] }) {
 
   return (
   <div>
+    
+      <CreateEventModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} />
     <FullCalendar
-      plugins={[dayGridPlugin, interactionPlugin]}
+      plugins={[dayGridPlugin, interactionPlugin, multiMonthPlugin]}
+      customButtons={customButtons}
+      headerToolbar={{
+        left: 'prev,next today createEventButton', // Add the custom button to the header
+        center: 'title',
+        right: 'dayGridMonth multiMonthYear', // Only show the month view button
+      }}
       initialView="dayGridMonth"
       selectable={true}
       //dateClick={handleDateClick}

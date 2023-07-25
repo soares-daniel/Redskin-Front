@@ -54,6 +54,7 @@ export default function Calendar({ events }: { events: FullCalendarEvent[] }) {
 
   const handleDateClick = (clickInfo: DateClickArg) => {
    // Filter the events on the clicked date
+   setSelectedDate(clickInfo.date);
    const eventsOnSelectedDate = events.filter((event) => {
       const eventStartDate = new Date(event.start).setHours(0, 0, 0, 0);
       const eventEndDate = new Date(event.end).setHours(23, 59, 59, 999);
@@ -87,6 +88,7 @@ export default function Calendar({ events }: { events: FullCalendarEvent[] }) {
         onRequestClose={() => setIsListModalOpen(false)}
         events={selectedEvents}
         onEdit={handleEditEvent}
+        selectedDate={selectedDate}
       />
     <CreateEventModal isOpen={isCreateModalOpen} onRequestClose={() => setIsCreateModalOpen(false)}/>
     <UpdateEventModal 

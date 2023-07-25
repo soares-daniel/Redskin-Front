@@ -5,6 +5,7 @@ import Calendar from "@/components/calendar";
 import EventCard from "@/components/eventcard";
 import useEventsData from "@/hooks/useEventsData";
 import { useRouter } from "next/navigation";
+import { ErrorTypes } from "@/types/errorTypes";
 
 
 export default function Dashboard() {
@@ -12,7 +13,7 @@ export default function Dashboard() {
   const { data: events, loading, error } = useEventsData();
 
   useEffect(() => {
-    if (error && error.message === 'Not Authorized') {
+    if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
       router.push('/login');
     }
   }, [error, router]);

@@ -1,5 +1,7 @@
 // api.ts
 
+import { NotAuthorizedError, UnknownError } from "./errors";
+
 export async function fetchData(
     url: string,
     method: string = 'GET',
@@ -21,8 +23,11 @@ export async function fetchData(
     const response = await fetch(`${baseUrl}${url}`, options);
   
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Unknown error');
+      if (response.status === 401) {
+        throw new NotAuthorizedError();
+      } else {
+        throw new UnknownError();
+      }
     }
   
     return response.json();

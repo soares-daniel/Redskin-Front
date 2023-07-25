@@ -6,7 +6,7 @@ export interface EventDataTransformed {
   extendedProps: {
     description: string;
     createdBy: string;
-    eventType: string;
+    eventType: number;
     createdAt: Date; // Update the type to Date
     updatedAt: Date; // Update the type to Date
   };
@@ -24,7 +24,7 @@ export function transformEvents(apiEvents: any[]): FullCalendarEvent[] {
     endDate: string;
     description: string;
     createdBy: string;
-    eventType: string;
+    eventType: number;
     createdAt: string;
     updatedAt: string;
   }) => ({

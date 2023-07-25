@@ -1,10 +1,17 @@
 // createEventModal.tsx
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import useCreateEvent from '@/hooks/useCreateEvent';
 import "@/app/globals.css";
 import useEventsData from '@/hooks/useEventsData';
+import { add } from 'date-fns';
+import { EventsContext } from './EventsContext';
+import { FullCalendarEvent } from '@/utils/eventTransform';
+
+type NewEvent = Omit<FullCalendarEvent, 'id' | 'extendedProps'> & {
+  extendedProps: Omit<FullCalendarEvent['extendedProps'], 'createdBy' | 'createdAt' | 'updatedAt'>
+};
 
 type CreateEventModalProps = {
   isOpen: boolean;
@@ -12,23 +19,29 @@ type CreateEventModalProps = {
 };
 
 export default function CreateEventModal({ isOpen, onRequestClose }: CreateEventModalProps) {
+  const { events, addEvent, updateEvent } = useContext(EventsContext);
   const { createEvent } = useCreateEvent();
   const [eventType, setEventType] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const { addEvent } = useEventsData();
+  //const { addEvent } = useEventsData();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const newEvent = await createEvent({ eventType, title, description, startDate, endDate });
-
-    if (!newEvent) {
-      throw new Error('Failed to create event');
-    }
-
+  
+    const newEvent: NewEvent = {
+      title,
+      start: new Date(startDate),
+      end: new Date(endDate),
+      extendedProps: {
+        eventType,
+        description
+      }
+    };
+  
+    addEvent(newEvent);
     onRequestClose();
   };
 

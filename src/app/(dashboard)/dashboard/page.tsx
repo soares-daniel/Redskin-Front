@@ -6,12 +6,14 @@ import EventCard from "@/components/eventcard";
 import useEventsData from "@/hooks/useEventsData";
 import { useRouter } from "next/navigation";
 import { ErrorTypes } from "@/types/errorTypes";
+import { EventsContext } from "@/components/EventsContext";
 
 
 export default function Dashboard() {
   const router = useRouter();
-  const { data: events, loading, error } = useEventsData();
+  const { data: events, loading, error, addEvent, updateEvent, deleteEvent } = useEventsData();
 
+  
   useEffect(() => {
     if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
       router.push('/login');
@@ -23,15 +25,17 @@ export default function Dashboard() {
   if (!Array.isArray(events)) return <p>No events to display</p>;
 
   return (
+    <EventsContext.Provider value={{ events, addEvent, updateEvent, deleteEvent }}>
     <Layout>
       <div className="flex h-full gap-4 pt-4">
         <div className="w-1/4 overflow-y-auto h-screen p-4">
-          <EventCard events={events} />
+          <EventCard />
         </div>
         <div className="w-3/4 border border-gray-400 mx-auto p-2">
-          <Calendar events={events}/>
+          <Calendar/>
         </div>
       </div>
     </Layout>
+    </EventsContext.Provider>
   );
 }

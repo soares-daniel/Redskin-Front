@@ -8,20 +8,26 @@ export function useFetchEvents() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const json = await fetchData('/api/events/user');
-        setData(json);
-      } catch (error) {
-        setError(error as Error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchEvents = async () => {
+    try {
+      const json = await fetchData('/api/events/user');
+      setData(json);
+    } catch (error) {
+      setError(error as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchEvents();
   }, []);
 
-  return { data, loading, error };
+  const refetch = async () => {
+    setLoading(true);
+    setError(null);
+    await fetchEvents();
+  };
+
+  return { data, loading, error, refetch };
 }

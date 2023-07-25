@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import useEventsData from '@/hooks/useEventsData';
@@ -14,24 +14,25 @@ import EventListModal from './eventListModal';
 import useUpdateEvent from '@/hooks/useUpdateEvent';
 import CreateEventModal from './createEventModal';
 import UpdateEventModal from './updateEventModal';
+import { EventsContext } from './EventsContext';
 
 
 interface CalendarProps {
   onDateClick: (date: Date) => void;
 }
 
-export default function Calendar({ events }: { events: FullCalendarEvent[] }) {
-  const { deleteEvent } = useDeleteEvent();
+export default function Calendar() {
+  const { events, addEvent, updateEvent, deleteEvent } = useContext(EventsContext);
+  //const { data: events, deleteEvent, updateEvent } = useEventsData();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedEvents, setSelectedEvents] = useState<FullCalendarEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<FullCalendarEvent | undefined>(undefined);
-  //const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isListModalOpen, setIsListModalOpen] = useState(false);
-  const { updateEvent } = useUpdateEvent();
   const [eventToEdit, setEventToEdit] = useState<FullCalendarEvent | undefined>(undefined);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
+  //const { deleteEvent } = useDeleteEvent();
   
 
   const customButtons = {
@@ -47,7 +48,7 @@ export default function Calendar({ events }: { events: FullCalendarEvent[] }) {
       const eventId = (clickInfo.event.id);
       await deleteEvent(eventId);
       // After deleting the event from the server, remove it from the calendar
-      clickInfo.event.remove();
+      //clickInfo.event.remove();
     }
   };
 

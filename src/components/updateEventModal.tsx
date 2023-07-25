@@ -1,10 +1,12 @@
 // updateEventModal.tsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-modal';
 import useUpdateEvent from '@/hooks/useUpdateEvent';
 import "@/app/globals.css";
 import { FullCalendarEvent } from '@/utils/eventTransform';
+import useEventsData from '@/hooks/useEventsData';
+import { EventsContext } from './EventsContext';
 
 type UpdateEventModalProps = {
   isOpen: boolean;
@@ -13,7 +15,9 @@ type UpdateEventModalProps = {
 };
 
 export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }: UpdateEventModalProps) {
-  const { updateEvent } = useUpdateEvent();
+  const { events, addEvent, updateEvent } = useContext(EventsContext);
+  const { updateEvent: updateEventApi } = useUpdateEvent();
+  //const { updateEvent } = useEventsData();
   const [eventType, setEventType] = useState(eventToEdit ? Number(eventToEdit.extendedProps.eventType) : 0);
   const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
   const [description, setDescription] = useState(eventToEdit ? eventToEdit.extendedProps.description : '');
@@ -36,12 +40,12 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
 
     if (!eventToEdit) return;
 
-    const updatedEvent = await updateEvent(eventToEdit.id, { eventType, title, description, startDate, endDate });
+    const updatedEvent = await updateEventApi(eventToEdit.id, { eventType, title, description, startDate, endDate });
 
     if (!updatedEvent) {
       throw new Error('Failed to update event');
     }
-
+    updateEvent(updatedEvent);
     onRequestClose();
   };
 

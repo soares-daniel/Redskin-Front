@@ -1,11 +1,9 @@
 // updateEventModal.tsx
 
+import "@/app/globals.css";
 import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-modal';
-import useUpdateEvent from '@/hooks/useUpdateEvent';
-import "@/app/globals.css";
 import { FullCalendarEvent } from '@/utils/eventTransform';
-import useEventsData from '@/hooks/useEventsData';
 import { EventsContext } from './EventsContext';
 
 type UpdateEventModalProps = {
@@ -15,9 +13,7 @@ type UpdateEventModalProps = {
 };
 
 export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }: UpdateEventModalProps) {
-  const { events, addEvent, updateEvent } = useContext(EventsContext);
-  const { updateEvent: updateEventApi } = useUpdateEvent();
-  //const { updateEvent } = useEventsData();
+  const { updateEvent } = useContext(EventsContext);
   const [eventType, setEventType] = useState(eventToEdit ? Number(eventToEdit.extendedProps.eventType) : 0);
   const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
   const [description, setDescription] = useState(eventToEdit ? eventToEdit.extendedProps.description : '');
@@ -35,16 +31,24 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
   }, [eventToEdit]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("handleSubmit");
     e.preventDefault();
-
+  
     if (!eventToEdit) return;
-
-    const updatedEvent = await updateEventApi(eventToEdit.id, { eventType, title, description, startDate, endDate });
-
-    if (!updatedEvent) {
-      throw new Error('Failed to update event');
-    }
+  
+    const updatedEvent = {
+      id: eventToEdit.id,
+      title,
+      start: new Date(startDate),
+      end: new Date(endDate),
+      extendedProps: {
+        eventType,
+        description,
+        createdBy: eventToEdit.extendedProps.createdBy,
+        createdAt: eventToEdit.extendedProps.createdAt,
+        updatedAt: eventToEdit.extendedProps.updatedAt
+      },
+    };
+  
     updateEvent(updatedEvent);
     onRequestClose();
   };

@@ -1,14 +1,9 @@
 "use client"
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { EventDataTransformed } from '@/utils/eventTransform';
-import useEventsData from '@/hooks/useEventsData';
-import { Event } from '@/types/types';
-import { FullCalendarEvent } from '@/utils/eventTransform';
 import { EventsContext } from './EventsContext';
 
 export default function EventCard() {
-  const { events, addEvent, updateEvent } = useContext(EventsContext);
-  //const { data: events, deleteEvent, updateEvent } = useEventsData();
+  const { events } = useContext(EventsContext);
   const sortedEvents = [...events].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
   return (

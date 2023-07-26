@@ -3,36 +3,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import useEventsData from '@/hooks/useEventsData';
 import { FullCalendarEvent, transformEvents } from '@/utils/eventTransform';
 import { DateSelectArg, EventClickArg } from 'fullcalendar';
-import { createEventId } from './event-utils';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
-import useDeleteEvent from '@/hooks/useDeleteEvent';
 import multiMonthPlugin from '@fullcalendar/multimonth'
 import EventListModal from './eventListModal';
-import useUpdateEvent from '@/hooks/useUpdateEvent';
 import CreateEventModal from './createEventModal';
 import UpdateEventModal from './updateEventModal';
 import { EventsContext } from './EventsContext';
 
 
-interface CalendarProps {
-  onDateClick: (date: Date) => void;
-}
-
 export default function Calendar() {
-  const { events, addEvent, updateEvent, deleteEvent } = useContext(EventsContext);
-  //const { data: events, deleteEvent, updateEvent } = useEventsData();
+  const { events, deleteEvent } = useContext(EventsContext);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedEvents, setSelectedEvents] = useState<FullCalendarEvent[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<FullCalendarEvent | undefined>(undefined);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isListModalOpen, setIsListModalOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState<FullCalendarEvent | undefined>(undefined);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-  //const { deleteEvent } = useDeleteEvent();
   
 
   const customButtons = {
@@ -47,8 +36,6 @@ export default function Calendar() {
     if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       const eventId = (clickInfo.event.id);
       await deleteEvent(eventId);
-      // After deleting the event from the server, remove it from the calendar
-      //clickInfo.event.remove();
     }
   };
 
@@ -101,9 +88,9 @@ export default function Calendar() {
       plugins={[dayGridPlugin, interactionPlugin, multiMonthPlugin]}
       customButtons={customButtons}
       headerToolbar={{
-        left: 'prev,next today createEventButton', // Add the custom button to the header
+        left: 'prev,next today createEventButton',
         center: 'title',
-        right: 'dayGridMonth multiMonthYear', // Only show the month view button
+        right: 'dayGridMonth multiMonthYear',
       }}
       initialView="dayGridMonth"
       selectable={true}

@@ -17,16 +17,20 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
   const [eventType, setEventType] = useState(eventToEdit ? Number(eventToEdit.extendedProps.eventType) : 0);
   const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
   const [description, setDescription] = useState(eventToEdit ? eventToEdit.extendedProps.description : '');
-  const [startDate, setStartDate] = useState(eventToEdit ? eventToEdit.start.toISOString() : '');
-  const [endDate, setEndDate] = useState(eventToEdit ? eventToEdit.end.toISOString() : '');
+  const [startDate, setStartDate] = useState(eventToEdit ? formatDateTime(eventToEdit.start) : '');
+  const [endDate, setEndDate] = useState(eventToEdit ? formatDateTime(eventToEdit.end) : '');
+
+  function formatDateTime(date: Date) {
+    return date.toISOString().slice(0, 16);
+  }
 
   useEffect(() => {
     if (eventToEdit) {
       setEventType(Number(eventToEdit.extendedProps.eventType));
       setTitle(eventToEdit.title);
       setDescription(eventToEdit.extendedProps.description);
-      setStartDate(eventToEdit.start.toISOString());
-      setEndDate(eventToEdit.end.toISOString());
+      setStartDate(formatDateTime(eventToEdit.start));
+      setEndDate(formatDateTime(eventToEdit.end));
     }
   }, [eventToEdit]);
 

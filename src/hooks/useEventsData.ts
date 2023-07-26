@@ -22,6 +22,7 @@ export default function useEventsData() {
     if (apiData) {
       const transformedData = transformEvents(apiData);
       setData(transformedData);
+      
     }
   }, [apiData]);
 

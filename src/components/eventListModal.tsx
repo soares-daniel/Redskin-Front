@@ -16,9 +16,10 @@ interface EventListModalProps {
     events: FullCalendarEvent[];
     onEdit: (event: FullCalendarEvent) => void;
     selectedDate: Date | null;
+    onDelete: (event: FullCalendarEvent) => void;
   }
 
-  export default function EventListModal({ isOpen, onRequestClose, events, onEdit, selectedDate }: EventListModalProps) {
+  export default function EventListModal({ isOpen, onRequestClose, events, onEdit, onDelete, selectedDate }: EventListModalProps) {
     return (
       <Modal 
         isOpen={isOpen} 
@@ -51,7 +52,10 @@ interface EventListModalProps {
           {events.map((event) => (
             <li key={event.id} className="modal-list-item">
               <span>{event.title}</span>
-              <button onClick={() => onEdit(event)} className="modal-edit-button">Edit</button>
+              <div className="modal-buttons">
+                <button onClick={() => onEdit(event)} className="modal-edit-button">Edit</button>
+                <button onClick={() => onDelete(event)} className="modal-delete-button">Delete</button>
+              </div>
             </li>
           ))}
         </ul>

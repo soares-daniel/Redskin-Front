@@ -23,6 +23,7 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  //const { addEvent } = useEventsData();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

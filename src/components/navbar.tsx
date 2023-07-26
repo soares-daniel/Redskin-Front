@@ -2,11 +2,28 @@
 
 import { FC } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import ThemeButton from "./ThemeButton";
+import { de } from "date-fns/locale";
+import { useCookies } from "react-cookie";
 
-const Navbar: FC = () => {
+export default function Navbar() {
+  const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+  const router = useRouter();
   const pathname = usePathname();
+
+  const logout = () => {
+    // Remove the user ID cookie
+    removeCookie('userId');
+
+    // Clear local storage
+    if (typeof window !== 'undefined') {
+      localStorage.clear();
+    }
+
+    // Redirect the user to the login page
+    router.push('/login');
+  };
 
   return (
     <nav className="w-full flex items-center justify-between p-6 pb-10 shadow-md rounded-[15px] bg-[#FBF7F7]">
@@ -20,15 +37,21 @@ const Navbar: FC = () => {
             Dashboard
           </div>
         </Link>
+        <Link href="/admin">
+          <div
+            className={`${
+              pathname === "/admin" ? "text-blue-600" : "text-gray-700"
+            } cursor-pointer`}
+          >
+            Admin
+          </div>
+        </Link>
       </div>
       <div className="flex items-center gap-4">
         <ThemeButton />
-        <Link href="/logout">
-          <div className="text-red-500">Logout</div>
-        </Link>
+        <button onClick={logout}>Logout</button>
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+  };
+  

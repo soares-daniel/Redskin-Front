@@ -7,11 +7,19 @@ import useEventsData from "@/hooks/useEventsData";
 import { useRouter } from "next/navigation";
 import { ErrorTypes } from "@/types/errorTypes";
 import { EventsContext } from "@/components/EventsContext";
+import UserIdContext from '@/components/UserIdContext';
+import EventTypesContext from '@/components/EventTypesContext';
+import { useCookies } from 'react-cookie';
 
 
 export default function Dashboard() {
   const router = useRouter();
   const { data: events, loading, error, addEvent, updateEvent, deleteEvent } = useEventsData();
+  const [cookies] = useCookies(['userId']);
+  const userId = cookies.userId;
+  const eventTypes = typeof window !== 'undefined' 
+    ? JSON.parse(localStorage.getItem('eventTypes') || '[]') 
+    : [];
 
   
   useEffect(() => {
@@ -25,17 +33,21 @@ export default function Dashboard() {
   if (!Array.isArray(events)) return <p>No events to display</p>;
 
   return (
-    <EventsContext.Provider value={{ events, addEvent, updateEvent, deleteEvent }}>
-    <Layout>
-      <div className="flex h-full gap-4 pt-4">
-        <div className="w-1/4 overflow-y-auto h-screen p-4">
-          <EventCard />
-        </div>
-        <div className="w-3/4 border border-gray-400 mx-auto p-2">
-          <Calendar/>
-        </div>
-      </div>
-    </Layout>
-    </EventsContext.Provider>
+    <UserIdContext.Provider value={userId}>
+      <EventTypesContext.Provider value={eventTypes}>
+        <EventsContext.Provider value={{ events, addEvent, updateEvent, deleteEvent }}>
+          <Layout>
+            <div className="flex h-full gap-4 pt-4">
+              <div className="w-1/4 overflow-y-auto h-screen p-4">
+                <EventCard />
+              </div>
+              <div className="w-3/4 border border-gray-400 mx-auto p-2">
+                <Calendar/>
+              </div>
+            </div>
+          </Layout>
+        </EventsContext.Provider>
+      </EventTypesContext.Provider>
+    </UserIdContext.Provider>
   );
 }

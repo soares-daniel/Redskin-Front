@@ -32,9 +32,9 @@ export default function Calendar() {
   };
 
 
-  const handleDeleteEvent = async (clickInfo: EventClickArg) => {
-    if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      const eventId = (clickInfo.event.id);
+  const handleDeleteEvent = async (event: FullCalendarEvent) => {
+    if (window.confirm(`Are you sure you want to delete the event '${event.title}'`)) {
+      const eventId = event.id;
       await deleteEvent(eventId);
     }
   };
@@ -77,6 +77,7 @@ export default function Calendar() {
         events={selectedEvents}
         onEdit={handleEditEvent}
         selectedDate={selectedDate}
+        onDelete={handleDeleteEvent}
       />
     <CreateEventModal isOpen={isCreateModalOpen} onRequestClose={() => setIsCreateModalOpen(false)}/>
     <UpdateEventModal 
@@ -95,7 +96,6 @@ export default function Calendar() {
       initialView="dayGridMonth"
       selectable={true}
       dateClick={handleDateClick}
-      eventClick={handleDeleteEvent}
       events={events}
       eventClassNames={(info) => info.event.extendedProps.classNames}
     />

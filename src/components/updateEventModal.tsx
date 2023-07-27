@@ -22,6 +22,8 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
   const [startDate, setStartDate] = useState(eventToEdit ? formatDateTime(eventToEdit.start) : '');
   const [endDate, setEndDate] = useState(eventToEdit ? formatDateTime(eventToEdit.end) : '');
 
+  const isFormValid = eventType !== 0 && title !== '' && startDate !== '' && endDate !== '';
+
   function formatDateTime(date: Date) {
     return date.toISOString().slice(0, 16);
   }
@@ -39,7 +41,7 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    if (!eventToEdit) return;
+    if (!eventToEdit || !isFormValid) return;
   
     const updatedEvent = {
       id: eventToEdit.id,
@@ -82,6 +84,7 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
       }}
     >
       <h2 className="modal-header">Update Event</h2>
+      <button onClick={onRequestClose} style={{ position: 'absolute', top: '10px', right: '10px' }}>Close</button>
       <form onSubmit={handleSubmit}>
       <div className="form-field">
             <label>
@@ -114,7 +117,7 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
             <textarea 
               value={description} 
               onChange={(e) => setDescription(e.target.value)} 
-              required 
+               
             />
           </label>
         </div>
@@ -140,7 +143,8 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
             />
           </label>
         </div>
-        <button type="submit">Update</button>
+        <button type="submit" disabled={!isFormValid} className={!isFormValid ? 'disabled-button' : ''}>Update</button>
+        {!isFormValid && <p className="error-message">Please fill out all required fields</p>}
       </form>
     </Modal>
   );

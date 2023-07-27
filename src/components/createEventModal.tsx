@@ -26,21 +26,34 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  const resetForm = () => {
+    setEventType(0);
+    setTitle('');
+    setDescription('');
+    setStartDate('');
+    setEndDate('');
+  };
+
+  const isFormValid = eventType !== 0 && title !== '' && startDate !== '' && endDate !== '';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
-    const newEvent: NewEvent = {
-      title,
-      start: new Date(startDate),
-      end: new Date(endDate),
-      extendedProps: {
-        eventType,
-        description
-      }
-    };
+    if (isFormValid) {
+      const newEvent: NewEvent = {
+        title,
+        start: new Date(startDate),
+        end: new Date(endDate),
+        extendedProps: {
+          eventType,
+          description
+        }
+      };
   
-    addEvent(newEvent);
-    onRequestClose();
+      addEvent(newEvent);
+      resetForm();
+      onRequestClose();
+    }
   };
 
   return (
@@ -66,21 +79,23 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
       }}
     >
       <h2 className="modal-header">Create Event</h2>
+      <button onClick={resetForm} style={{ position: 'absolute', top: '10px', left: '10px' }}>Reset Form</button>
+      <button onClick={onRequestClose} style={{ position: 'absolute', top: '10px', right: '10px' }}>Close</button>
       <form onSubmit={handleSubmit}>
         <div className="form-field">
-            <label>
-              Event Type:
-            </label>
-            {eventTypes.map((type, index) => (
-              <button 
-                type="button"
-                className={`event-type-button event-type-button-${index + 1} ${eventType === type.id ? 'event-type-button-selected' : ''}`}
-                onClick={() => setEventType(type.id)}
-              >
-                {type.description}
-              </button>
-            ))}
-          </div>
+          <label>
+            Event Type:
+          </label>
+          {eventTypes.map((type, index) => (
+            <button 
+              type="button"
+              className={`event-type-button event-type-button-${index + 1} ${eventType === type.id ? 'event-type-button-selected' : ''}`}
+              onClick={() => setEventType(type.id)}
+            >
+              {type.description}
+            </button>
+          ))}
+        </div>
         <div className="form-field">
           <label>
             Title:
@@ -97,8 +112,7 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
             Description:
             <textarea 
               value={description} 
-              onChange={(e) => setDescription(e.target.value)} 
-              required 
+              onChange={(e) => setDescription(e.target.value)}
             />
           </label>
         </div>
@@ -124,7 +138,8 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
             />
           </label>
         </div>
-        <button type="submit">Create</button>
+        <button type="submit" disabled={!isFormValid} className={!isFormValid ? 'disabled-button' : ''}>Create</button>
+        {!isFormValid && <p className="error-message">Please fill out all required fields</p>}
       </form>
     </Modal>
   );

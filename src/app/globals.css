@@ -22,15 +22,16 @@ body.dark {
 }
 
 .event-type-1 {
-  background-color: red;
+  background-color: rgba(25, 105, 25, 0.616);
 }
 
 .event-type-2 {
-  background-color: blue;
+  background-color: rgba(216, 16, 16, 0.694);
 }
 
 .event-type-3 {
-  background-color: green;
+  background-color: rgb(30, 30, 30);
+  color: white;
 }
 
 .calendar-grid {
@@ -153,4 +154,14 @@ button[type="submit"]:hover {
 
 .event-type-button-selected {
   border-color: black;
+}
+
+button.disabled-button {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
 }

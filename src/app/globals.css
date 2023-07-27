@@ -133,3 +133,24 @@ button[type="submit"]:hover {
   right: 10px;
   
 }
+
+.event-type-button {
+  padding: 10px 20px;
+  border: 4px solid transparent;
+  border-radius: 4px;
+  color: black;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.event-type-button:hover {
+  opacity: 0.9;
+}
+
+
+.event-type-button-selected {
+  border-color: black;
+}

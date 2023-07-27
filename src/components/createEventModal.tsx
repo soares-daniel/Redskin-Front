@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import useCreateEvent from '@/hooks/useCreateEvent';
 import { EventsContext } from './EventsContext';
+import EventTypesContext from './EventTypesContext';
 import { FullCalendarEvent } from '@/utils/eventTransform';
 
 type NewEvent = Omit<FullCalendarEvent, 'id' | 'extendedProps'> & {
@@ -18,12 +19,12 @@ type CreateEventModalProps = {
 
 export default function CreateEventModal({ isOpen, onRequestClose }: CreateEventModalProps) {
   const { addEvent } = useContext(EventsContext);
+  const eventTypes = useContext(EventTypesContext);
   const [eventType, setEventType] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  //const { addEvent } = useEventsData();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,16 +68,19 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
       <h2 className="modal-header">Create Event</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-field">
-          <label>
-            Event Type:
-            <input 
-              type="number" 
-              value={eventType} 
-              onChange={(e) => setEventType(Number(e.target.value))} 
-              required 
-            />
-          </label>
-        </div>
+            <label>
+              Event Type:
+            </label>
+            {eventTypes.map((type, index) => (
+              <button 
+                type="button"
+                className={`event-type-button event-type-button-${index + 1} ${eventType === type.id ? 'event-type-button-selected' : ''}`}
+                onClick={() => setEventType(type.id)}
+              >
+                {type.description}
+              </button>
+            ))}
+          </div>
         <div className="form-field">
           <label>
             Title:

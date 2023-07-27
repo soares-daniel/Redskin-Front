@@ -10,7 +10,7 @@ export function useGetEventTypes() {
 
   const fetchEventTypes = async () => {
     try {
-      const data = await fetchData('/api/users/user/event_types');
+      const data = await fetchData('/api/users/event_types');
       setEventTypes(data);
       localStorage.setItem('eventTypes', JSON.stringify(data));
     } catch (error) {

@@ -2,7 +2,13 @@
 
 import { createContext, useContext } from 'react';
 
-const EventTypesContext = createContext([]);
+type EventType = {
+  id: number;
+  name: string;
+  description: string;
+};
+
+const EventTypesContext = createContext<EventType[]>([]);
 
 export const useEventTypes = () => useContext(EventTypesContext);
 

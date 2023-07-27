@@ -10,17 +10,20 @@ import { EventsContext } from "@/components/EventsContext";
 import UserIdContext from '@/components/UserIdContext';
 import EventTypesContext from '@/components/EventTypesContext';
 import { useCookies } from 'react-cookie';
+import { useGetEventTypes } from '@/hooks/useGetEventTypes';
+
 
 
 export default function Dashboard() {
   const router = useRouter();
   const { data: events, loading, error, addEvent, updateEvent, deleteEvent } = useEventsData();
+  const { eventTypes, loading: eventTypesLoading, error: eventTypesError } = useGetEventTypes();
   const [cookies] = useCookies(['userId']);
   const userId = cookies.userId;
-  const eventTypes = typeof window !== 'undefined' 
+  /*const eventTypes = typeof window !== 'undefined' 
     ? JSON.parse(localStorage.getItem('eventTypes') || '[]') 
     : [];
-
+  */
   
   useEffect(() => {
     if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
@@ -31,6 +34,9 @@ export default function Dashboard() {
   if (loading) return <p>Loading...</p>;
   if (error) return null;
   if (!Array.isArray(events)) return <p>No events to display</p>;
+  if (eventTypesLoading) return <p>Loading event types...</p>;
+  if (eventTypesError) return <p>Error fetching event types.</p>;
+
 
   return (
     <UserIdContext.Provider value={userId}>

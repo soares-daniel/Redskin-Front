@@ -5,6 +5,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-modal';
 import { FullCalendarEvent } from '@/utils/eventTransform';
 import { EventsContext } from './EventsContext';
+import EventTypesContext from './EventTypesContext';
 
 type UpdateEventModalProps = {
   isOpen: boolean;
@@ -14,6 +15,7 @@ type UpdateEventModalProps = {
 
 export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }: UpdateEventModalProps) {
   const { updateEvent } = useContext(EventsContext);
+  const eventTypes = useContext(EventTypesContext);
   const [eventType, setEventType] = useState(eventToEdit ? Number(eventToEdit.extendedProps.eventType) : 0);
   const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
   const [description, setDescription] = useState(eventToEdit ? eventToEdit.extendedProps.description : '');
@@ -81,17 +83,20 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
     >
       <h2 className="modal-header">Update Event</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-field">
-          <label>
-            Event Type:
-            <input 
-              type="number" 
-              value={eventType} 
-              onChange={(e) => setEventType(Number(e.target.value))} 
-              required 
-            />
-          </label>
-        </div>
+      <div className="form-field">
+            <label>
+              Event Type:
+            </label>
+            {eventTypes.map((type, index) => (
+              <button 
+                type="button"
+                className={`event-type-button event-type-button-${index + 1} ${eventType === type.id ? 'event-type-button-selected' : ''}`}
+                onClick={() => setEventType(type.id)}
+              >
+                {type.description}
+              </button>
+            ))}
+          </div>
         <div className="form-field">
           <label>
             Title:

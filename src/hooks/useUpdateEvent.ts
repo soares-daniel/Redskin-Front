@@ -19,7 +19,7 @@ export default function useUpdateEvent() {
     setError(null);
 
     try {
-      const data = await fetchData(`/api/events/update/${eventId}`, 'PUT', eventData);
+      const data = await fetchData(`/events/update/${eventId}`, 'PUT', eventData);
       setUpdatedEvent(data);
       return data;
     } catch (error) {

@@ -13,7 +13,7 @@ export default function useDeleteEvent() {
     setError(null);
 
     try {
-      const data = await fetchData(`/api/events/delete/${Number(eventId)}`, 'DELETE');
+      const data = await fetchData(`/events/delete/${Number(eventId)}`, 'DELETE');
       setDeletedEvent(data);
     } catch (error) {
       if (error instanceof Error) {

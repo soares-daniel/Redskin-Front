@@ -10,7 +10,7 @@ export function useGetUsers() {
 
   const fetchUsers = async () => {
     try {
-      const data = await fetchData('/api/users');
+      const data = await fetchData('/users');
       setUsers(data);
     } catch (error) {
       setError(error as Error);

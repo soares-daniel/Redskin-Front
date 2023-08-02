@@ -10,7 +10,7 @@ export function useFetchEvents() {
 
   const fetchEvents = async () => {
     try {
-      const json = await fetchData('/api/events/user');
+      const json = await fetchData('/events/user');
       setData(json);
     } catch (error) {
       setError(error as Error);

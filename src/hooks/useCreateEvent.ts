@@ -24,7 +24,7 @@ export default function useCreateEvent() {
     const createdBy = Number(cookies.userId);
 
     try {
-      const data = await fetchData('/api/events/create', 'POST', {
+      const data = await fetchData('/events/create', 'POST', {
         ...eventData,
         createdBy,
       });

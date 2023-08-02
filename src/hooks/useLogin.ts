@@ -14,7 +14,7 @@ export function useLogin() {
 
   const login = async (username: string, password: string) => {
     try {
-      const data = await fetchData('/api/authorization/login', 'POST', {
+      const data = await fetchData('/authorization/login', 'POST', {
         username,
         password,
       });

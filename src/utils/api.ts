@@ -7,7 +7,7 @@ export async function fetchData(
     method: string = 'GET',
     body?: object,
   ) {
-    const baseUrl = 'http://localhost:8000';
+    const baseUrl = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}${process.env.NEXT_PUBLIC_API_BASE_PATH}`;
     const options: RequestInit = {
       method,
       headers: {

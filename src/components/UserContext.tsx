@@ -1,11 +1,12 @@
 // UserContext.ts
 
 import { createContext } from 'react';
-//import { User } from '@/types/types';
 
 export interface User {
     id: number;
     username: string;
+    firstName: string;
+    lastName: string;
     extendedProps: {
       createdAt: Date;
       updatedAt: Date;

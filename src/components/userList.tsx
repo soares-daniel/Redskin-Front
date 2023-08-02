@@ -1,7 +1,11 @@
 import React, { useContext, useState } from 'react';
-import UserContext from './UserContext';
+import UserContext, { User } from './UserContext';
 
-export default function UsersList() {
+type UsersListProps = {
+  onUserClick: (user: User) => void;
+};
+
+export default function UsersList({ onUserClick }: UsersListProps) {
   const contextValue = useContext(UserContext);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -30,10 +34,13 @@ export default function UsersList() {
         <button onClick={refetch}>Refresh</button>
       </div>
       {filteredUsers.map((user, index) => (
-        <div className="bg-white rounded shadow mb-4 p-6" key={index}>
+        <div className="bg-white rounded shadow mb-4 p-6" 
+              key={index}
+              onClick={() => onUserClick(user)}
+              > 
           <h3 className="text-xl font-bold">{user.username}</h3>
           <p className="text-sm text-gray-600">
-            User ID: {user.id}
+            UserId: {user.id}
           </p>
             {user.extendedProps && (
             <>

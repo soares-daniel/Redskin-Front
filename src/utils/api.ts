@@ -1,6 +1,6 @@
 // api.ts
 
-import { NotAuthorizedError, UnknownError } from "./errors";
+import { NotAuthorizedError, NotFoundError, UnknownError } from "./errors";
 
 export async function fetchData(
     url: string,
@@ -25,7 +25,11 @@ export async function fetchData(
     if (!response.ok) {
       if (response.status === 401) {
         throw new NotAuthorizedError();
-      } else {
+      } 
+      else if (response.status === 404) {
+        throw new NotFoundError();
+      }
+        else {
         throw new UnknownError();
       }
     }

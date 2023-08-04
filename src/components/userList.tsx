@@ -1,26 +1,37 @@
 import React, { useContext, useState } from 'react';
 import UserContext, { User } from './UserContext';
+import CreateUserModal from '@/app/(dashboard)/admin/components/createUserModal';
 
 type UsersListProps = {
   onUserClick: (user: User) => void;
 };
 
 export default function UsersList({ onUserClick }: UsersListProps) {
-  const contextValue = useContext(UserContext);
+  const usersContext = useContext(UserContext);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (!contextValue) {
-    return <p>Error: UsersContext not found</p>;
+  if (!usersContext) {
+    return null;
   }
 
-  const { users, loading, error, refetch } = contextValue;
+  const { users, loading, error, refetch, createUser, } = usersContext;
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (error && error.message !== 'Not found') return <p>Error: {error.message}</p>;
 
   const filteredUsers = users.filter(user =>
     user.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleCreateUser = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    refetch();
+  };
 
   return (
     <div>
@@ -32,6 +43,7 @@ export default function UsersList({ onUserClick }: UsersListProps) {
           onChange={e => setSearchTerm(e.target.value)}
         />
         <button onClick={refetch}>Refresh</button>
+        <button onClick={handleCreateUser}>+User</button>
       </div>
       {filteredUsers.map((user, index) => (
         <div className="bg-white rounded shadow mb-4 p-6" 
@@ -54,6 +66,7 @@ export default function UsersList({ onUserClick }: UsersListProps) {
             )}
         </div>
       ))}
+      <CreateUserModal isOpen={isModalOpen} onRequestClose={closeModal} />
     </div>
   );
 }

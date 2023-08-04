@@ -15,3 +15,10 @@ export class UnknownError extends Error {
     this.name = ErrorTypes.UNKNOWN_ERROR;
   }
 }
+
+export class NotFoundError extends Error {
+  constructor() {
+    super('Not found');
+    this.name = ErrorTypes.NOT_FOUND;
+  }
+}

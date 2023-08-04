@@ -12,6 +12,7 @@ import useRolesData from "@/hooks/useRolesData";
 
 export default function AdminPage() {
   const usersData = useUsersData();
+  const { deleteUser, createUser } = usersData;
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const rolesData = useRolesData(selectedUser?.id);
 
@@ -20,7 +21,7 @@ export default function AdminPage() {
   };
 
   return (
-    <UsersContext.Provider value={usersData}>
+    <UsersContext.Provider value={usersData}> 
       <RolesContext.Provider value={rolesData}>
         <Layout>
           <div className="flex h-full gap-4 pt-4">

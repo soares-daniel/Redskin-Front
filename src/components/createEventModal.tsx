@@ -3,7 +3,6 @@
 import "@/app/globals.css";
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
-import useCreateEvent from '@/hooks/useCreateEvent';
 import { EventsContext } from './EventsContext';
 import EventTypesContext from './EventTypesContext';
 import { FullCalendarEvent } from '@/utils/eventTransform';

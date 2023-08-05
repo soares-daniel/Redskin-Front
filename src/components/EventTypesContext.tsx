@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react';
 
-type EventType = {
+export type EventType = {
   id: number;
   name: string;
   description: string;

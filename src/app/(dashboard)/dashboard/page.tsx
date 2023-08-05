@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/layout";
 import Calendar from "@/components/calendar";
 import EventCard from "@/components/eventcard";
@@ -11,19 +11,34 @@ import UserIdContext from '@/components/UserIdContext';
 import EventTypesContext from '@/components/EventTypesContext';
 import { useCookies } from 'react-cookie';
 import { useGetEventTypes } from '@/hooks/useGetEventTypes';
+import FilterDropdown from "@/components/filterDropdown";
+import { FullCalendarEvent } from "@/utils/eventTransform";
 
 
 
 export default function Dashboard() {
   const router = useRouter();
-  const { data: events, loading, error, addEvent, updateEvent, deleteEvent } = useEventsData();
+  const { data: fetchedEvents, loading, error, addEvent, updateEvent, deleteEvent } = useEventsData();
   const { eventTypes, loading: eventTypesLoading, error: eventTypesError } = useGetEventTypes();
+  const [events, setEvents] = useState<FullCalendarEvent[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<FullCalendarEvent[]>([]);
   const [cookies] = useCookies(['userId']);
   const userId = cookies.userId;
-  /*const eventTypes = typeof window !== 'undefined' 
-    ? JSON.parse(localStorage.getItem('eventTypes') || '[]') 
-    : [];
-  */
+
+    useEffect(() => {
+      setEvents(fetchedEvents);
+      setFilteredEvents(fetchedEvents);
+  }, [fetchedEvents]);
+
+
+    const handleFilterChange = (filteredIds: number[]) => {
+      setFilteredEvents(
+        events.filter(event => 
+          filteredIds.includes(event.extendedProps.eventType) 
+        )
+      );
+    }
+    
   
   useEffect(() => {
     if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
@@ -41,10 +56,11 @@ export default function Dashboard() {
   return (
     <UserIdContext.Provider value={userId}>
       <EventTypesContext.Provider value={eventTypes}>
-        <EventsContext.Provider value={{ events, addEvent, updateEvent, deleteEvent }}>
+        <EventsContext.Provider value={{ events: filteredEvents, addEvent, updateEvent, deleteEvent }}>
           <Layout>
             <div className="flex h-full gap-4 pt-4">
               <div className="w-1/4 overflow-y-auto h-screen p-4">
+                <FilterDropdown onFilterChange={handleFilterChange} />
                 <EventCard />
               </div>
               <div className="w-3/4 border border-gray-400 mx-auto p-2">

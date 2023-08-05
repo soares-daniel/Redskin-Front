@@ -2,6 +2,9 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { EventsContext } from './EventsContext';
 
+const formatDate = (date: string | number | Date) => new Date(date).toLocaleDateString();
+const formatTime = (date: { toString: () => string | any[]; }) => date.toString().slice(16, 21);
+
 export default function EventCard() {
   const { events } = useContext(EventsContext);
   const sortedEvents = [...events].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());

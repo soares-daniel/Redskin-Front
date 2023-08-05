@@ -5,6 +5,7 @@ import { User } from "@/components/UserContext";
 import RolesContext from '@/components/RolesContext';
 import UsersContext from '@/components/UserContext';
 import useUsersData from "@/hooks/useUserData";
+import EditUserModal from "@/app/(dashboard)/admin/components/editUserModal";
 
 type UserDetailsProps = {
   user: User | null;
@@ -13,7 +14,7 @@ type UserDetailsProps = {
 export default function UserDetails({ user }: UserDetailsProps) {
   const usersContext = useContext(UsersContext);
   const rolesContext = useContext(RolesContext);
-
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<number | null>(null);
 
   if (!user || !rolesContext || !usersContext) {
@@ -55,6 +56,12 @@ export default function UserDetails({ user }: UserDetailsProps) {
           >
             Delete User
           </button>
+          <button 
+            className="absolute top-2 right-10 bg-green-500 text-white rounded px-2 py-1" 
+            onClick={() => setIsEditModalOpen(true)} 
+          >
+            Edit User
+          </button>
           <div className="p-4">
           </div>
         </div>
@@ -80,6 +87,11 @@ export default function UserDetails({ user }: UserDetailsProps) {
         </select>
         <button className="bg-blue-600 text-white rounded p-2" onClick={() => handleAssignRole(selectedRole as number)}>Assign Role</button>
       </div>
+      <EditUserModal 
+          isOpen={isEditModalOpen} 
+          onRequestClose={() => setIsEditModalOpen(false)}
+          user={user}
+        />
     </div>
   );
 }

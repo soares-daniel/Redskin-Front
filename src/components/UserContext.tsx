@@ -1,4 +1,4 @@
-// UserContext.ts
+// UserContext.tsx
 
 import { createContext } from 'react';
 
@@ -20,6 +20,7 @@ export interface User {
     refetch: () => Promise<void>;
     deleteUser: (userId: number) => Promise<void>;
     createUser: (username: string, firstName: string, lastName: string, password: string) => Promise<User>;
+    editUser: (userId: number, username: string, firstName: string, lastName: string, password: string) => Promise<any>;
   }
 
 const UsersContext = createContext<UsersContextProps | null>(null);

@@ -98,6 +98,7 @@ export default function Calendar() {
       dateClick={handleDateClick}
       events={events}
       eventClassNames={(info) => info.event.extendedProps.classNames}
+      displayEventTime={false}
     />
     
   </div>

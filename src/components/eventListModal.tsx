@@ -1,7 +1,7 @@
 //eventListModal.tsx
 
 import { FullCalendarEvent } from '@/utils/eventTransform';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { format } from 'date-fns';
 
@@ -20,6 +20,17 @@ interface EventListModalProps {
   }
 
   export default function EventListModal({ isOpen, onRequestClose, events, onEdit, onDelete, selectedDate }: EventListModalProps) {
+    const [localEvents, setLocalEvents] = useState(events);
+  
+    useEffect(() => {
+      setLocalEvents(events);
+    }, [events]);
+  
+    const handleDelete = (event: FullCalendarEvent) => {
+      onDelete(event);
+      setLocalEvents(localEvents.filter(e => e.id !== event.id));
+    }
+  
     return (
       <Modal 
         isOpen={isOpen} 
@@ -49,12 +60,13 @@ interface EventListModalProps {
         <button onClick={onRequestClose} className="modal-close-button">Close</button>
         <h2 className="modal-header">Events on {selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}</h2>
         <ul className="modal-list">
-          {events.map((event) => (
+          {localEvents.map((event) => (
             <li key={event.id} className="modal-list-item">
               <span>{event.title}</span>
+              <span>{event.start.toString().slice(0, 21)} - {event.end.toString().slice(0, 21)}</span>
               <div className="modal-buttons">
                 <button onClick={() => onEdit(event)} className="modal-edit-button">Edit</button>
-                <button onClick={() => onDelete(event)} className="modal-delete-button">Delete</button>
+                <button onClick={() => handleDelete(event)} className="modal-delete-button">Delete</button>
               </div>
             </li>
           ))}

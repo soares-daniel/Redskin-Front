@@ -2,12 +2,17 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import { EventsContext } from './EventsContext';
 
-const formatDate = (date: string | number | Date) => new Date(date).toLocaleDateString();
-const formatTime = (date: { toString: () => string | any[]; }) => date.toString().slice(16, 21);
-
 export default function EventCard() {
   const { events } = useContext(EventsContext);
-  const sortedEvents = [...events].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+  
+  // Get current date at the start of the day (midnight)
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  const upcomingEvents = events.filter(event => new Date(event.end) >= currentDate);
+  
+  // Sort the events
+  const sortedEvents = [...upcomingEvents].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
   return (
     <>

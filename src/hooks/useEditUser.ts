@@ -1,24 +1,31 @@
 // useEditUser.ts
 
-import { useState } from 'react';
-import { fetchData } from '@/utils/api';
+import {useState} from 'react';
+import {fetchData} from '@/utils/api';
+
+interface UserParams {
+    userId: number;
+    username?: string;
+    firstName?: string;
+    lastName?: string;
+}
 
 export default function useEditUser() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const editUser = async (userId: number, username: string, firstName: string, lastName: string, password: string) => {
+  const editUser = async ({userId, username, firstName, lastName}: UserParams) => {
     setLoading(true);
     setError(null);
 
+    const body: { [key: string]: string } = {};
+
+    if (username) body.username = username;
+    if (firstName) body.firstName = firstName;
+    if (lastName) body.lastName = lastName;
+
     try {
-      const data = await fetchData(`/users/update/${userId}`, 'PUT', {
-        username,
-        firstName,
-        lastName,
-        password,
-      });
-      return data;
+      return await fetchData(`/users/update/${userId}`, 'PUT', body);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

@@ -9,7 +9,6 @@ type EditUserProps = {
   username: string;
   firstName: string;
   lastName: string;
-  password: string;
 };
 
 type EditUserModalProps = {
@@ -23,7 +22,6 @@ export default function EditUserModal({ isOpen, onRequestClose, user }: EditUser
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [password, setPassword] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -39,7 +37,7 @@ export default function EditUserModal({ isOpen, onRequestClose, user }: EditUser
 
   const { editUser } = userContext
 
-  const isFormValid = username !== '' && firstName !== '' && lastName !== '' && password !== '';
+  const isFormValid = username !== '' && firstName !== '' && lastName !== '';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,11 +47,10 @@ export default function EditUserModal({ isOpen, onRequestClose, user }: EditUser
         userId: user.id,
         username,
         firstName,
-        lastName,
-        password 
+        lastName
       };
   
-      await editUser(editedUser.userId, editedUser.username, editedUser.firstName, editedUser.lastName, editedUser.password);
+      await editUser(editedUser.userId, editedUser.username, editedUser.firstName, editedUser.lastName);
       onRequestClose();
     }
   };
@@ -94,17 +91,6 @@ export default function EditUserModal({ isOpen, onRequestClose, user }: EditUser
               type="text" 
               value={lastName} 
               onChange={(e) => setLastName(e.target.value)} 
-              required 
-            />
-          </label>
-        </div>
-        <div className="form-field">
-          <label>
-            Password (re-enter or change):
-            <input 
-              type="password" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
               required 
             />
           </label>

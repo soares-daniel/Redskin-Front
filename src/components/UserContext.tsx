@@ -11,7 +11,7 @@ export interface User {
       createdAt: Date;
       updatedAt: Date;
     };
-  };
+  }
   
   interface UsersContextProps {
     users: User[];
@@ -20,7 +20,7 @@ export interface User {
     refetch: () => Promise<void>;
     deleteUser: (userId: number) => Promise<void>;
     createUser: (username: string, firstName: string, lastName: string, password: string) => Promise<User>;
-    editUser: (userId: number, username: string, firstName: string, lastName: string, password: string) => Promise<any>;
+    editUser: (userId: number, username: string, firstName: string, lastName: string) => Promise<User>;
   }
 
 const UsersContext = createContext<UsersContextProps | null>(null);

@@ -1,0 +1,49 @@
+name: Build Test Deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'
+    - name: Install Dependencies
+      run: |
+        npm install
+
+    - name: Set up .env and run
+      run: |
+        echo "${{ secrets.ENV_VARIABLES }}" > .env
+        npm run build
+
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ${{ secrets.TARGET_DIR }}
+            git checkout master
+            git fetch --all
+            git reset --hard origin/master
+            git pull origin master
+            cd ..
+            docker-compose down && docker-compose up -d --build

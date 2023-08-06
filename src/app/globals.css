@@ -168,11 +168,11 @@ button.disabled-button {
 }
 
 .dropdown-content {
-  border: 1px solid #ccc;
+  
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
-  background-color: #fff;
-  width: 200px;
+  background-color: #FAEFEF;
+  width: 100%;
   z-index: 10;
   padding: 10px;
 }
@@ -198,4 +198,35 @@ button.disabled-button {
   background-color: #FAEFEF;
   border: 'none';
   cursor: 'pointer';
+}
+
+.filter-button::after {
+  content: '';  /* this is necessary for a pseudo element */
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  transition: transform 0.2s;  /* smooth rotation */
+  margin-left: 0.5rem; /* space between "Filters" text and arrow */
+  border-color: black;  /* Arrow color */
+}
+
+.filter-button.open::after {
+  transform: rotate(-135deg); /* arrow pointing up */
+}
+
+.arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+.arrow-down {
+  border-top: 5px solid black;
+}
+
+.arrow-up {
+  border-bottom: 5px solid black;
 }

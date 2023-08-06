@@ -51,40 +51,36 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ onFilterChange }) => {
   }, [dropdownRef]);
 
   return (
-    <div style={{ marginBottom: '20px' }} ref={dropdownRef}>
+    <div className="relative">
       <button 
-        ref={buttonRef}
         onClick={() => setDropdownOpen(!isDropdownOpen)}
-        style={{
-          backgroundColor: '#FAEFEF',
-          borderRadius: '8px',
-          boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
-          padding: '8px 12px',
-          border: 'none',
-          cursor: 'pointer'
-        }}
+        className="bg-red-50 text-black p-2 rounded-t-md w-full text-left flex justify-between items-center"
       >
         Filters
+        <span className={`arrow ${isDropdownOpen ? 'arrow-up' : 'arrow-down'}`}></span>
       </button>
-
+  
       {isDropdownOpen && ( 
-        <div className="dropdown-content">
+        <div className="absolute top-full w-full rounded-b-md bg-red-50">
           {eventTypes.map(eventType => (
-            <div key={eventType.id} className="checkbox-item">
+            <div key={eventType.id} className="checkbox-item py-2 px-4">
               <input 
                 type="checkbox"
                 checked={selectedEventTypes.includes(eventType.id)}
                 onChange={() => handleCheckboxChange(eventType.id)}
-                className="checkbox"
+                className="checkbox mr-2"
               />
-              <span className="checkbox-label">{eventType.description}</span>
+              {eventType.description}
             </div>
           ))}
-          <button onClick={applyFilters} className="apply-btn">Apply</button>
+          <button onClick={applyFilters} className="block w-full p-2 bg-blue-500 text-white rounded-b-md">Apply</button>
         </div>
       )}
     </div>
   );
+  
+  
+  
 }
 
 export default FilterDropdown;

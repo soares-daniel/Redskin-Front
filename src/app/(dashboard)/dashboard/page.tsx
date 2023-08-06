@@ -68,10 +68,17 @@ export default function Dashboard() {
         <EventTypesContext.Provider value={eventTypes}>
           <EventsContext.Provider value={{ events: filteredEvents, addEvent, updateEvent, deleteEvent }}>
             <Layout>
-              <div className="flex h-full gap-4 pt-4">
-                <div className="w-1/4 overflow-y-auto h-screen p-4">
-                  <FilterDropdown onFilterChange={handleFilterChange} />
-                  <EventCard />
+              <div className="flex h-full gap-2 pt-4">
+                <div className="w-1/4 h-screen p-4 flex flex-col">
+                  {/* Filter Button Div */}
+                  <div className="mb-2"> 
+                    <FilterDropdown onFilterChange={handleFilterChange} />
+                  </div>
+                  
+                  {/* Event Cards Div */}
+                  <div className="overflow-y-auto flex-1"> 
+                    <EventCard />
+                  </div>
                 </div>
                 <div className="w-3/4 mx-auto p-2">
                   <Calendar/>

@@ -70,17 +70,14 @@ export default function Dashboard() {
             <Layout>
               <div className="flex h-full gap-2 pt-4">
                 <div className="w-1/4 h-screen p-4 flex flex-col">
-                  {/* Filter Button Div */}
                   <div className="mb-2"> 
                     <FilterDropdown onFilterChange={handleFilterChange} />
                   </div>
-                  
-                  {/* Event Cards Div */}
                   <div className="overflow-y-auto flex-1"> 
                     <EventCard />
                   </div>
                 </div>
-                <div className="w-3/4 mx-auto p-2">
+                <div className="w-3/4 mx-auto p-2 shadow-md h-full">
                   <Calendar/>
                 </div>
               </div>
@@ -89,5 +86,5 @@ export default function Dashboard() {
         </EventTypesContext.Provider>
       </UserIdContext.Provider>
     </RolesContext.Provider>
-  );
+);
 }

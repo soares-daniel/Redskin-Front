@@ -11,6 +11,7 @@ import EventListModal from './eventListModal';
 import CreateEventModal from './createEventModal';
 import UpdateEventModal from './updateEventModal';
 import { EventsContext } from './EventsContext';
+import useWindowSize from '@/hooks/useWindowSize';
 
 
 export default function Calendar() {
@@ -22,7 +23,8 @@ export default function Calendar() {
   const [isListModalOpen, setIsListModalOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState<FullCalendarEvent | undefined>(undefined);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-  
+  const { width, height } = useWindowSize();
+  const aspectRatio = width && height ? width / height : 1;  // Default to 1 if width or height is not available
 
   const customButtons = {
     createEventButton: {
@@ -86,6 +88,8 @@ export default function Calendar() {
         eventToEdit={eventToEdit}
       />
     <FullCalendar
+      aspectRatio={aspectRatio-0.15}
+      
       plugins={[dayGridPlugin, interactionPlugin, multiMonthPlugin]}
       customButtons={customButtons}
       headerToolbar={{

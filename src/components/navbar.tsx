@@ -31,7 +31,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full flex items-center justify-between p-6 pb-10 shadow-md rounded-[15px] bg-[#FBF7F7]">
+    <nav className="w-full flex items-center justify-between p-6 pb-10 shadow-md rounded-[15px] bg-red-50">
       <div className="flex gap-4">
         <Link href="/dashboard">
           <div

@@ -48,7 +48,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="flex items-center gap-4">
-        <ThemeButton />
+        {/* <ThemeButton /> */}
         <button onClick={logout}>Logout</button>
       </div>
     </nav>

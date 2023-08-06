@@ -3,5 +3,5 @@ node_modules
 .vscode
 .DS_Store
 .env.*
-.env.docker
+.env.production
 .env

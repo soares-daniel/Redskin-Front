@@ -19,7 +19,7 @@ export async function fetchData(
     if (body && (method === 'POST' || method === 'PUT')) {
       options.body = JSON.stringify(body);
     }
-    
+
     const response = await fetch(`${baseUrl}${url}`, options);
   
     if (!response.ok) {
@@ -36,4 +36,3 @@ export async function fetchData(
   
     return response.json();
   }
-  

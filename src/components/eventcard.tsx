@@ -14,10 +14,23 @@ export default function EventCard() {
   // Sort the events
   const sortedEvents = [...upcomingEvents].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
+  // Function to determine background color based on event type
+  const getBackgroundColor = (eventType: number) => {
+    switch(eventType) {
+      case 1: return 'bg-green-200 bg-opacity-30';  
+      case 2: return 'bg-red-200 bg-opacity-30';   
+      case 3: return 'bg-gray-600 bg-opacity-30';   
+      default: return 'bg-white';
+    }
+  };
+
   return (
     <>
       {sortedEvents.map((event, index) => (
-        <div className="bg-white rounded shadow mb-4 p-6" key={index}>
+        <div 
+          className={`${getBackgroundColor(event.extendedProps ? event.extendedProps.eventType : 0)} rounded shadow mb-4 p-6`}
+          key={index}
+        >
           <h3 className="text-xl font-bold">{event.title}</h3>
           <p className="text-sm text-gray-600">
             {new Date(event.start).toLocaleDateString()} -{' '}
@@ -26,16 +39,10 @@ export default function EventCard() {
           {event.extendedProps && (
             <>
               <p className="text-sm text-gray-600">
-                Time: {event.start.toString().slice(16, 21)} -{' '} {event.end.toString().slice(16, 21)}
+                {event.start.toString().slice(16, 21)} -{' '} {event.end.toString().slice(16, 21)}
               </p>
               <p className="text-sm text-gray-600">
-                Description: {event.extendedProps.description}
-              </p>
-              <p className="text-sm text-gray-600">
-                Created by: {event.extendedProps.createdBy}
-              </p>
-              <p className="text-sm text-gray-600">
-                Event Type: {event.extendedProps.eventType}
+                {event.extendedProps.description}
               </p>
             </>
           )}

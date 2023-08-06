@@ -2,7 +2,7 @@
 
 import { createContext } from 'react';
 
-interface UserParams {
+export interface UserParams {
     userId: number;
     username?: string;
     firstName?: string;

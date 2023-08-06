@@ -1,6 +1,6 @@
 // EditUserModal.tsx
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';  // Import useEffect
 import Modal from 'react-modal';
 import UserContext, { User } from '@/components/UserContext';
 
@@ -15,19 +15,26 @@ type EditUserModalProps = {
   isOpen: boolean;
   onRequestClose: () => void;
   user: User;
+  setSelectedUser: (user: User) => void;
 };
 
-export default function EditUserModal({ isOpen, onRequestClose, user }: EditUserModalProps) {
+export default function EditUserModal({ isOpen, onRequestClose, user, setSelectedUser }: EditUserModalProps) {  // Don't forget the setSelectedUser prop
   const userContext = useContext(UserContext);
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState(user.username || '');
+  const [firstName, setFirstName] = useState(user.firstName || '');
+  const [lastName, setLastName] = useState(user.lastName || '');
+
+  useEffect(() => { // This effect will run whenever the 'user' prop changes
+    setUsername(user.username || '');
+    setFirstName(user.firstName || '');
+    setLastName(user.lastName || '');
+  }, [user]);
 
   if (!userContext) {
     return null;
   }
 
-  const { editUser } = userContext
+  const { editUser, refetch } = userContext;
 
   const isFormValid = username !== '' || firstName !== '' || lastName !== '';
 
@@ -44,7 +51,19 @@ export default function EditUserModal({ isOpen, onRequestClose, user }: EditUser
 
     if (isFormValid) {
       await editUser(editedUser);
-      onRequestClose();
+    
+    await refetch();
+
+    if (userContext.users) {
+      const updatedUser = userContext.users.find(u => u.id === user.id);
+      setSelectedUser(updatedUser || user);
+    }
+
+    onRequestClose();
+    // Clear form values
+    setUsername('');
+    setFirstName('');
+    setLastName('');
     }
   };
 

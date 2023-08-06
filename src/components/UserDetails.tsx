@@ -9,9 +9,10 @@ import EditUserModal from "@/app/(dashboard)/admin/components/editUserModal";
 
 type UserDetailsProps = {
   user: User | null;
+  setSelectedUser: (user: User) => void;
 };
 
-export default function UserDetails({ user }: UserDetailsProps) {
+export default function UserDetails({ user, setSelectedUser }: UserDetailsProps) {
   const usersContext = useContext(UsersContext);
   const rolesContext = useContext(RolesContext);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -93,6 +94,7 @@ export default function UserDetails({ user }: UserDetailsProps) {
           isOpen={isEditModalOpen} 
           onRequestClose={() => setIsEditModalOpen(false)}
           user={user}
+          setSelectedUser={setSelectedUser}
         />
     </div>
   );

@@ -16,8 +16,11 @@ export default function AdminPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const rolesData = useRolesData(selectedUser?.id);
 
+  const [forceRender, setForceRender] = useState(false);
+
   const handleUserClick = (user: User) => {
     setSelectedUser(user);
+    setForceRender(!forceRender);
   };
 
   return (
@@ -29,7 +32,7 @@ export default function AdminPage() {
               <UsersList onUserClick={handleUserClick} />
             </div>
             <div className="w-3/4 overflow-y-auto h-screen p-4">
-              <UserDetails user={selectedUser} />
+            <UserDetails key={selectedUser?.id} user={selectedUser} setSelectedUser={setSelectedUser} />
             </div>
           </div>
         </Layout>

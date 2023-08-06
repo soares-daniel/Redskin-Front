@@ -88,7 +88,8 @@ export default function Calendar() {
         eventToEdit={eventToEdit}
       />
     <FullCalendar
-      aspectRatio={1.7778}
+      height={height ? height - 100 : 'auto'}
+
       plugins={[dayGridPlugin, interactionPlugin, multiMonthPlugin]}
       customButtons={customButtons}
       headerToolbar={{

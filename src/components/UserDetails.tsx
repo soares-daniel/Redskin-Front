@@ -60,7 +60,7 @@ export default function UserDetails({ user, setSelectedUser }: UserDetailsProps)
             Delete User
           </button>
           <button 
-            className="absolute top-2 right-10 bg-green-500 text-white rounded px-2 py-1" 
+            className="absolute top-2 right-40 bg-green-500 text-white rounded px-2 py-1" 
             onClick={() => setIsEditModalOpen(true)} 
           >
             Edit User

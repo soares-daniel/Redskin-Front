@@ -73,7 +73,7 @@ export default function Dashboard() {
                   <FilterDropdown onFilterChange={handleFilterChange} />
                   <EventCard />
                 </div>
-                <div className="w-3/4 border border-gray-400 mx-auto p-2">
+                <div className="w-3/4 mx-auto p-2">
                   <Calendar/>
                 </div>
               </div>

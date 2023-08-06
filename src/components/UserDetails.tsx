@@ -20,9 +20,9 @@ export default function UserDetails({ user }: UserDetailsProps) {
   if (!user || !rolesContext || !usersContext) {
     return <div className="text-lg text-center py-5">Select a user to see details</div>;
   }
-  const { users, loading, error: usersError, refetch, createUser, deleteUser } = usersContext;
+  const { users, loading, error: usersError, refetch: refetchUser, createUser, deleteUser } = usersContext;
 
-  const { roles, userRoles, assignRole, removeRole } = rolesContext;
+  const { roles, userRoles, assignRole, removeRole, refetch: refetchRoles } = rolesContext;
 
   const handleAssignRole = (roleId: number) => {
     if (user && assignRole) {
@@ -30,6 +30,7 @@ export default function UserDetails({ user }: UserDetailsProps) {
       if (!roleAlreadyAssigned) {
         assignRole(user.id, roleId);
         setSelectedRole(null);  // reset selection
+        //refetchRoles();
       } else {
         alert("Role is already assigned to the user");
       }
@@ -39,12 +40,13 @@ export default function UserDetails({ user }: UserDetailsProps) {
   const handleRemoveRole = (roleId: number) => {
     if (user && removeRole) {
       removeRole(user.id, roleId);
+      //refetchRoles();
     }
   };
 
   const handleDelete = async () => {
     await deleteUser(user.id);
-    refetch();
+    refetchUser();
   };
 
   return (

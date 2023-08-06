@@ -1,3 +1,5 @@
+// dashboard/page.tsx
+
 "use client"
 import React, { useEffect, useState } from "react";
 import Layout from "@/components/layout";
@@ -13,6 +15,9 @@ import { useCookies } from 'react-cookie';
 import { useGetEventTypes } from '@/hooks/useGetEventTypes';
 import FilterDropdown from "@/components/filterDropdown";
 import { FullCalendarEvent } from "@/utils/eventTransform";
+import useRolesData from "@/hooks/useRolesData";
+import useGetUserRoles from '@/hooks/useGetUserRoles';
+import RolesContext from "@/components/RolesContext";
 
 
 
@@ -24,6 +29,8 @@ export default function Dashboard() {
   const [filteredEvents, setFilteredEvents] = useState<FullCalendarEvent[]>([]);
   const [cookies] = useCookies(['userId']);
   const userId = cookies.userId;
+  const { userRoles, loading: rolesLoading, error: rolesError, ...otherRolesData } = useRolesData(userId)
+  
 
     useEffect(() => {
       setEvents(fetchedEvents);
@@ -51,25 +58,29 @@ export default function Dashboard() {
   if (!Array.isArray(events)) return <p>No events to display</p>;
   if (eventTypesLoading) return <p>Loading event types...</p>;
   if (eventTypesError) return <p>Error fetching event types.</p>;
+  if (rolesLoading) return <p>Loading user roles...</p>;
+  if (rolesError) return <p>Error fetching user roles.</p>;
 
 
   return (
-    <UserIdContext.Provider value={userId}>
-      <EventTypesContext.Provider value={eventTypes}>
-        <EventsContext.Provider value={{ events: filteredEvents, addEvent, updateEvent, deleteEvent }}>
-          <Layout>
-            <div className="flex h-full gap-4 pt-4">
-              <div className="w-1/4 overflow-y-auto h-screen p-4">
-                <FilterDropdown onFilterChange={handleFilterChange} />
-                <EventCard />
+    <RolesContext.Provider value={{ ...otherRolesData, userRoles, roles: otherRolesData.roles, loading: rolesLoading, error: rolesError }}>
+      <UserIdContext.Provider value={userId}>
+        <EventTypesContext.Provider value={eventTypes}>
+          <EventsContext.Provider value={{ events: filteredEvents, addEvent, updateEvent, deleteEvent }}>
+            <Layout>
+              <div className="flex h-full gap-4 pt-4">
+                <div className="w-1/4 overflow-y-auto h-screen p-4">
+                  <FilterDropdown onFilterChange={handleFilterChange} />
+                  <EventCard />
+                </div>
+                <div className="w-3/4 border border-gray-400 mx-auto p-2">
+                  <Calendar/>
+                </div>
               </div>
-              <div className="w-3/4 border border-gray-400 mx-auto p-2">
-                <Calendar/>
-              </div>
-            </div>
-          </Layout>
-        </EventsContext.Provider>
-      </EventTypesContext.Provider>
-    </UserIdContext.Provider>
+            </Layout>
+          </EventsContext.Provider>
+        </EventTypesContext.Provider>
+      </UserIdContext.Provider>
+    </RolesContext.Provider>
   );
 }

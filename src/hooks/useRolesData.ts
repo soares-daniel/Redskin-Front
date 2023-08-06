@@ -1,14 +1,14 @@
 // src/hooks/useRolesData.ts
 
 import { useEffect, useState } from "react";
-import useFetchRoles from "./useFetchRoles";
+import useGetUserRoles from "./useGetUserRoles";
 import { Role } from "@/components/RolesContext";
 import useAssignRole from "./useAssignRole";
 import useRemoveRole from "./useRemoveRole";
 import { useGetRoles } from "./useGetRoles";
 
 export default function useRolesData(userId?: number) {
-  const { data, loading: fetchLoading, error: fetchError, fetchRoles } = useFetchRoles(userId);
+  const { data, loading: fetchLoading, error: fetchError, fetchRoles } = useGetUserRoles(userId);
   const { assignRole, loading: assignLoading, error: assignError } = useAssignRole();
   const { removeRole, loading: removeLoading, error: removeError } = useRemoveRole();
 

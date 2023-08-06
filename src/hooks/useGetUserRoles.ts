@@ -4,7 +4,7 @@ import { Role } from "@/components/RolesContext";
 import { fetchData } from "@/utils/api";
 import { useEffect, useState } from "react";
 
-export default function useFetchRoles(userId?: number) {
+export default function useGetUserRoles(userId?: number) {
     const [data, setData] = useState<Role[] | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);

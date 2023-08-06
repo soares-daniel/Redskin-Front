@@ -77,7 +77,7 @@ export default function Dashboard() {
                     <EventCard />
                   </div>
                 </div>
-                <div className="w-3/4 mx-auto p-2 shadow-md h-full">
+                <div id="calendar-container" className="w-3/4 mx-auto p-2 shadow-lg h-full p-4">
                   <Calendar/>
                 </div>
               </div>

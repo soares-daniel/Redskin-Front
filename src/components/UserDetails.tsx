@@ -30,7 +30,7 @@ export default function UserDetails({ user, setSelectedUser }: UserDetailsProps)
       const roleAlreadyAssigned = userRoles.some(role => role.id === roleId);
       if (!roleAlreadyAssigned) {
         assignRole(user.id, roleId);
-        setSelectedRole(null);  // reset selection
+        setSelectedRole(null);
         //refetchRoles();
       } else {
         alert("Role is already assigned to the user");

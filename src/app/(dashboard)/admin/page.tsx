@@ -22,6 +22,7 @@ export default function AdminPage() {
     setSelectedUser(user);
     setForceRender(!forceRender);
   };
+  console.log("Selected User:", selectedUser);
 
   return (
     <UsersContext.Provider value={usersData}> 
@@ -32,7 +33,11 @@ export default function AdminPage() {
               <UsersList onUserClick={handleUserClick} />
             </div>
             <div className="w-3/4 overflow-y-auto h-screen p-4">
-            <UserDetails key={selectedUser?.id} user={selectedUser} setSelectedUser={setSelectedUser} />
+            <UserDetails 
+                key={`${selectedUser?.id}-${selectedUser?.extendedProps?.updatedAt || ''}`} 
+                user={selectedUser} 
+                setSelectedUser={setSelectedUser} 
+            />
             </div>
           </div>
         </Layout>

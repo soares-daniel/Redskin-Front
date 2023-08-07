@@ -18,13 +18,13 @@ type EditUserModalProps = {
   setSelectedUser: (user: User) => void;
 };
 
-export default function EditUserModal({ isOpen, onRequestClose, user, setSelectedUser }: EditUserModalProps) {  // Don't forget the setSelectedUser prop
+export default function EditUserModal({ isOpen, onRequestClose, user, setSelectedUser }: EditUserModalProps) {
   const userContext = useContext(UserContext);
   const [username, setUsername] = useState(user.username || '');
   const [firstName, setFirstName] = useState(user.firstName || '');
   const [lastName, setLastName] = useState(user.lastName || '');
 
-  useEffect(() => { // This effect will run whenever the 'user' prop changes
+  useEffect(() => { // effect when user prop changes
     setUsername(user.username || '');
     setFirstName(user.firstName || '');
     setLastName(user.lastName || '');

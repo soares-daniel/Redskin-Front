@@ -114,5 +114,5 @@ export default function useEventsData() {
 
   
 
-  return { data, loading, error, addEvent, deleteEvent, updateEvent };
+  return { data, loading, error, addEvent, deleteEvent, updateEvent, refetch };
 }

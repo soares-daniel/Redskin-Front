@@ -38,7 +38,7 @@ export default function UsersList({ onUserClick }: UsersListProps) {
       <div className="flex mb-4 items-center space-x-4">
         <input
           type="text"
-          placeholder="Search users"
+          placeholder="Search"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

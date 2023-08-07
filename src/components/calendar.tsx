@@ -24,7 +24,7 @@ export default function Calendar() {
   const [eventToEdit, setEventToEdit] = useState<FullCalendarEvent | undefined>(undefined);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
   const { width, height } = useWindowSize();
-  const aspectRatio = width && height ? width / height : 1;  // Default to 1 if width or height is not available
+
 
   const customButtons = {
     createEventButton: {
@@ -88,7 +88,7 @@ export default function Calendar() {
         eventToEdit={eventToEdit}
       />
     <FullCalendar
-      height={height ? height - 100 : 'auto'}
+      height={height ? height - 150 : 'auto'}
 
       plugins={[dayGridPlugin, interactionPlugin, multiMonthPlugin]}
       customButtons={customButtons}

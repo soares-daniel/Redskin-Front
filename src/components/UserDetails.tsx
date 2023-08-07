@@ -52,22 +52,21 @@ export default function UserDetails({ user, setSelectedUser }: UserDetailsProps)
 
   return (
     <div className="p-5 bg-white shadow rounded">
-        <div className="relative w-full h-full">
-          <button 
-            className="absolute top-2 right-2 bg-red-500 text-white rounded px-2 py-1" 
-            onClick={handleDelete}
-          >
-            Delete User
-          </button>
-          <button 
-            className="absolute top-2 right-40 bg-green-500 text-white rounded px-2 py-1" 
-            onClick={() => setIsEditModalOpen(true)} 
-          >
-            Edit User
-          </button>
-          <div className="p-4">
-          </div>
-        </div>
+      <div className="relative w-full h-full">
+        <button 
+          className="absolute top-2 right-20 bg-green-500 text-white rounded px-2 py-1" 
+          onClick={() => setIsEditModalOpen(true)} 
+        >
+          Edit
+        </button>
+        <button 
+          className="absolute top-2 right-2 bg-red-500 text-white rounded px-2 py-1" 
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+        <div className="p-4"></div>
+      </div>
       <h2 className="text-2xl font-bold mb-2">{user.username}</h2>
       <p className="text-gray-600 mb-2">UserId: {user.id}</p>
       <p className="text-gray-600 mb-2">First name: {user.firstName}</p>
@@ -82,20 +81,31 @@ export default function UserDetails({ user, setSelectedUser }: UserDetailsProps)
       </ul>
       <h3 className="text-xl font-semibold mt-4 mb-2">Assign Role:</h3>
       <div className="flex items-center">
-        <select value={selectedRole || ''} onChange={e => setSelectedRole(Number(e.target.value))} className="border-gray-300 border rounded p-2 mr-4 flex-grow">
+        <select 
+          value={selectedRole || ''} 
+          onChange={e => setSelectedRole(Number(e.target.value))} 
+          className="border-gray-300 border rounded p-2 mr-4 flex-grow text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-blue-400"
+        >
           <option value="">Select a role</option>
           {roles.map((role, index) => (
             <option key={index} value={role.id}>{role.name}</option>
           ))}
         </select>
-        <button className="bg-blue-600 text-white rounded p-2" onClick={() => handleAssignRole(selectedRole as number)}>Assign Role</button>
+        <button 
+          className="bg-blue-600 text-white rounded p-2" 
+          onClick={() => handleAssignRole(selectedRole as number)}
+        >
+          Assign Role
+        </button>
       </div>
       <EditUserModal 
           isOpen={isEditModalOpen} 
           onRequestClose={() => setIsEditModalOpen(false)}
           user={user}
           setSelectedUser={setSelectedUser}
-        />
+      />
     </div>
   );
+  
+  
 }

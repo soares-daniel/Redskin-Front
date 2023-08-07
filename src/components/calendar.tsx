@@ -12,6 +12,7 @@ import CreateEventModal from './createEventModal';
 import UpdateEventModal from './updateEventModal';
 import { EventsContext } from './EventsContext';
 import useWindowSize from '@/hooks/useWindowSize';
+import { getEventClassName  } from '@/utils/eventColor';
 
 
 export default function Calendar() {
@@ -43,7 +44,6 @@ export default function Calendar() {
 
 
   const handleDateClick = (clickInfo: DateClickArg) => {
-   // Filter the events on the clicked date
    setSelectedDate(clickInfo.date);
    const eventsOnSelectedDate = events.filter((event) => {
       const eventStartDate = new Date(event.start).setHours(0, 0, 0, 0);
@@ -53,13 +53,8 @@ export default function Calendar() {
       return eventStartDate <= clickedDate && clickedDate <= eventEndDate;
     });
 
-    // Update the local state
     setSelectedEvents(eventsOnSelectedDate);
-
-    // Open the event list modal
     setIsListModalOpen(true);
-
-    // Ensure the event modal is closed
     setIsEventModalOpen(false);
   };
 
@@ -68,7 +63,7 @@ export default function Calendar() {
   const handleEditEvent = (eventToEdit: FullCalendarEvent) => {
     setEventToEdit(eventToEdit);
     setIsUpdateModalOpen(true);
-    setIsListModalOpen(false); // close the list modal
+    setIsListModalOpen(false); 
   };
 
   return (
@@ -107,7 +102,9 @@ export default function Calendar() {
       handleEditEvent(event as unknown as FullCalendarEvent);
     }
   }}
-      eventClassNames={(info) => info.event.extendedProps.classNames}
+    eventClassNames={(info) => {
+      return getEventClassName(info.event.extendedProps ? info.event.extendedProps.eventType : 0);
+    }}
       displayEventTime={false}
     />
     

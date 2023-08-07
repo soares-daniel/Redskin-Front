@@ -35,15 +35,24 @@ export default function UsersList({ onUserClick }: UsersListProps) {
 
   return (
     <div>
-      <div>
+      <div className="flex mb-4 items-center space-x-4">
         <input
           type="text"
           placeholder="Search users"
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
+          className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-        <button onClick={refetch}>Refresh</button>
-        <button onClick={handleCreateUser}>+User</button>
+        <button 
+          onClick={refetch} 
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Refresh
+        </button>
+        <button 
+          onClick={handleCreateUser} 
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Create
+        </button>
       </div>
       {filteredUsers.map((user, index) => (
         <div className="bg-white rounded shadow mb-4 p-6" 

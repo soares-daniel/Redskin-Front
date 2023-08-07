@@ -47,7 +47,7 @@ export default function EventListModal({ isOpen, onRequestClose, events, onEdit,
         }
       }}
     >
-      <button onClick={onRequestClose} className="modal-close-button bg-red-500 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
+      <button onClick={onRequestClose} className="modal-close-button bg-red-500 bg-opacity-60 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
       <h2 className="modal-header text-xl mb-6 mt-2">{selectedDate ? format(selectedDate, 'dd-MM-yyyy') : ''}</h2>
       <ul className="modal-list divide-y divide-gray-200">
       {localEvents.map((event) => (

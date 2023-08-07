@@ -78,8 +78,8 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
       }}
     >
       <h2 className="modal-header">Create Event</h2>
-      <button onClick={resetForm} style={{ position: 'absolute', top: '10px', left: '10px' }}>Reset Form</button>
-      <button onClick={onRequestClose} className="modal-close-button bg-red-500 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
+      <button onClick={resetForm} className="modal-close-button bg-blue-500 bg-opacity-60 text-white p-1 rounded hover:bg-blue-600 absolute top-4 left-4">Reset Form</button>
+      <button onClick={onRequestClose} className="modal-close-button bg-red-500 bg-opacity-60 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
       <form onSubmit={handleSubmit}>
         <div className="form-field">
           <label>

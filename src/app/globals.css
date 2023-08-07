@@ -26,18 +26,26 @@ body.dark {
   border-color: black !important;
 }
 
+.fc-daygrid-event, .fc-daygrid-dot-event .fc-event-title {
+  color: #000; 
+}
+
 .event-type-1 {
-  background-color: rgba(25, 105, 25, 0.616);
+  background-color: #79d47ac5;
 }
 
 .event-type-2 {
-  background-color: rgba(216, 16, 16, 0.694);
+  background-color: #cd6060a5;
 }
 
 .event-type-3 {
-  background-color: rgb(30, 30, 30);
-  color: white;
+  background-color: #4a556856;
 }
+
+.default-event {
+  background-color: #FFFFFF;
+}
+
 
 .calendar-grid {
   z-index: 999;

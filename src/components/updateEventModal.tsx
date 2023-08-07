@@ -86,7 +86,7 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
       }}
     >
       <h2 className="modal-header">Update Event</h2>
-      <button onClick={onRequestClose} style={{ position: 'absolute', top: '10px', right: '10px' }}>Close</button>
+      <button onClick={onRequestClose} className="modal-close-button bg-red-500 bg-opacity-60 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
       <form onSubmit={handleSubmit}>
       <div className="form-field">
             <label>

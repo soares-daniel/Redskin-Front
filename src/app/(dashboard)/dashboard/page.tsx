@@ -31,6 +31,11 @@ export default function Dashboard() {
   const userId = cookies.userId;
   const { userRoles, loading: rolesLoading, error: rolesError, ...otherRolesData } = useRolesData(userId)
   
+  useEffect(() => {
+    if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
+      router.push('/login');
+    }
+  }, [error, router]);
 
     useEffect(() => {
       setEvents(fetchedEvents);
@@ -47,11 +52,7 @@ export default function Dashboard() {
     }
     
   
-  useEffect(() => {
-    if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
-      router.push('/login');
-    }
-  }, [error, router]);
+
 
   if (loading) return <p>Loading...</p>;
   if (error) return null;

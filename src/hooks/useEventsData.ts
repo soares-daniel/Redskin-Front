@@ -84,7 +84,7 @@ export default function useEventsData() {
     }
   };
 
-  const updateEvent = async (updatedEvent: FullCalendarEvent) => {
+  const updateEvent = async (updatedEvent: FullCalendarEvent, oldEvent: FullCalendarEvent) => {
     if (!updatedEvent.extendedProps) {
       console.error('Failed to update event: extendedProps is undefined');
       return;
@@ -93,13 +93,12 @@ export default function useEventsData() {
     const { title, start, end, extendedProps: { eventType, description } } = updatedEvent;
     const startDate = start.toISOString();
     const endDate = end.toISOString();
-    const oldEvent = data.find(event => event.id === updatedEvent.id);
 
     // Optimistic update
     setData(prevData => prevData.map(event => event.id === updatedEvent.id ? updatedEvent : event));
 
     try {
-      const updatedEventData = await updateEventApi(updatedEvent.id, { eventType, title, description, startDate, endDate });
+      const updatedEventData = await updateEventApi(updatedEvent, oldEvent);
       // If the API call is successful, update the event in state with the returned data
       if (updatedEventData) {
         setData(prevData => prevData.map(event => event.id === updatedEvent.id ? transformEvents([updatedEventData])[0] : event));

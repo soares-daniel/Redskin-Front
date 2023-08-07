@@ -2,13 +2,9 @@
 
 import {useState} from 'react';
 import {fetchData} from '@/utils/api';
+import {UserParams} from "@/components/UserContext";
 
-interface UserParams {
-    userId: number;
-    username?: string;
-    firstName?: string;
-    lastName?: string;
-}
+
 
 export default function useEditUser() {
   const [loading, setLoading] = useState(false);

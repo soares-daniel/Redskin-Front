@@ -57,7 +57,7 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
       },
     };
   
-    updateEvent(updatedEvent);
+    updateEvent(updatedEvent, eventToEdit);
     onRequestClose();
   };
 

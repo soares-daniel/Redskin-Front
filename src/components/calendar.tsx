@@ -101,6 +101,12 @@ export default function Calendar() {
       selectable={true}
       dateClick={handleDateClick}
       events={events}
+      eventClick={(clickInfo) => {
+    const { event } = clickInfo;
+    if (event.start && event.extendedProps.description && event.extendedProps.createdBy && event.extendedProps.eventType && event.extendedProps.createdAt && event.extendedProps.updatedAt) {
+      handleEditEvent(event as unknown as FullCalendarEvent);
+    }
+  }}
       eventClassNames={(info) => info.event.extendedProps.classNames}
       displayEventTime={false}
     />

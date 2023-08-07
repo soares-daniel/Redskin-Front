@@ -25,7 +25,9 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
   const isFormValid = eventType !== 0 && title !== '' && startDate !== '' && endDate !== '';
 
   function formatDateTime(date: Date) {
-    return date.toISOString().slice(0, 16);
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+    return adjustedDate.toISOString().slice(0, 16);
   }
 
   useEffect(() => {

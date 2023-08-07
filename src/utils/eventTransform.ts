@@ -1,14 +1,14 @@
 export interface EventDataTransformed {
   id: number;
   title: string;
-  start: Date; // Update the type to Date
-  end: Date; // Update the type to Date
+  start: Date;
+  end: Date;
   extendedProps: {
     description: string;
     createdBy: string;
     eventType: number;
-    createdAt: Date; // Update the type to Date
-    updatedAt: Date; // Update the type to Date
+    createdAt: Date;
+    updatedAt: Date; 
   };
 }
 

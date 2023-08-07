@@ -12,6 +12,10 @@ body.dark {
   background-color: #2d3748; /* dark gray color */
 }
 
+.fc-day-today {
+  background-color: #79daee27 !important;
+  border: 2px solid #d0d0d0 !important;
+}
 
 .rbc-calendar {
   background-color: white;
@@ -100,10 +104,10 @@ button[type="submit"]:hover {
 
 .modal-header {
   font-size: 24px;
-  color: #2f7ed8;
+  color: #bd5d5d;
   text-align: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #2f7ed8;
+  border-bottom: 1px solid #bd5d5d;
   padding-bottom: 10px; 
   font-family: 'Arial', sans-serif; 
 }
@@ -201,18 +205,18 @@ button.disabled-button {
 }
 
 .filter-button::after {
-  content: '';  /* this is necessary for a pseudo element */
+  content: '';  
   border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 3px;
   transform: rotate(45deg);
-  transition: transform 0.2s;  /* smooth rotation */
-  margin-left: 0.5rem; /* space between "Filters" text and arrow */
-  border-color: black;  /* Arrow color */
+  transition: transform 0.2s; 
+  margin-left: 0.5rem; 
+  border-color: black;  
 }
 
 .filter-button.open::after {
-  transform: rotate(-135deg); /* arrow pointing up */
+  transform: rotate(-135deg); 
 }
 
 .arrow {

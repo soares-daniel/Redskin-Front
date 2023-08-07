@@ -40,31 +40,34 @@ export default function EventListModal({ isOpen, onRequestClose, events, onEdit,
           position: 'relative',
           width: '80%',
           maxWidth: '500px',
-          backgroundColor: '#f3f3f3',
+          backgroundColor: '#ffffff',
           padding: '20px',
           borderRadius: '10px',
           boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'
         }
       }}
     >
-      <button onClick={onRequestClose} className="modal-close-button bg-red-500 text-white p-1 rounded hover:bg-red-600">Close</button>
-      <h2 className="modal-header text-xl mb-4 mt-2">Events on {selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}</h2>
-      <ul className="modal-list space-y-3">
+      <button onClick={onRequestClose} className="modal-close-button bg-red-500 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
+      <h2 className="modal-header text-xl mb-6 mt-2">{selectedDate ? format(selectedDate, 'dd-MM-yyyy') : ''}</h2>
+      <ul className="modal-list divide-y divide-gray-200">
       {localEvents.map((event) => (
-    <li key={event.id} className="modal-list-item">
-      <div className="modal-event-info">
-        <h3 className="text-xl mb-1">{event.title}</h3>
-        <div className="text-sm mb-2">
-          {format(new Date(event.start), 'dd.MM')} - {format(new Date(event.end), 'dd.MM')}
-        </div>
-      </div>
-      <div className="modal-buttons">
-        <button onClick={() => onEdit(event)} className="modal-edit-button">Edit</button>
-        <button onClick={() => handleDelete(event)} className="modal-delete-button">Delete</button>
-      </div>
-    </li>
-  ))}
+        <li key={event.id} className="modal-list-item py-4">
+          <div className="modal-event-info">
+            <h3 className="text-xl mb-1">{event.title}</h3>
+            <div className="text-sm mb-2">
+               {format(new Date(event.start), 'dd/MM')} - {format(new Date(event.end), 'dd/MM')}
+            </div>
+            <div className="text-sm mb-2">
+               {format(new Date(event.start), 'HH:mm')} - {format(new Date(event.end), 'HH:mm')}
+            </div>
+          </div>
+          <div className="modal-buttons mt-2">
+            <button onClick={() => onEdit(event)} className="modal-edit-button border-green-400 text-green-600 p-1 rounded hover:bg-green-600 hover:text-white mr-2">Edit</button>
+            <button onClick={() => handleDelete(event)} className="modal-delete-button border-red-400 text-red-600 p-1 rounded hover:bg-red-600 hover:text-white">Delete</button>
+          </div>
+        </li>
+      ))}
       </ul>
     </Modal>
-  );
+);
 }

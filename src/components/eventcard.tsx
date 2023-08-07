@@ -14,7 +14,6 @@ export default function EventCard() {
   // Sort the events
   const sortedEvents = [...upcomingEvents].sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
-  // Function to determine background color based on event type
   const getBackgroundColor = (eventType: number) => {
     switch(eventType) {
       case 1: return 'bg-green-200 bg-opacity-30';  

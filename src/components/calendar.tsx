@@ -13,7 +13,23 @@ import UpdateEventModal from './updateEventModal';
 import { EventsContext } from './EventsContext';
 import useWindowSize from '@/hooks/useWindowSize';
 import { getEventClassName  } from '@/utils/eventColor';
+import {EventImpl} from "@fullcalendar/core/internal";
 
+function transformEvent(event: EventImpl): FullCalendarEvent {
+    return {
+        id: event.id,
+        title: event.title,
+        start: event.start,
+        end: event.end,
+        extendedProps: {
+            description: event.extendedProps.description,
+            createdBy: event.extendedProps.createdBy,
+            eventType: event.extendedProps.eventType,
+            createdAt: event.extendedProps.createdAt,
+            updatedAt: event.extendedProps.updatedAt,
+        }
+    } as FullCalendarEvent
+}
 
 export default function Calendar() {
   const { events, deleteEvent } = useContext(EventsContext);
@@ -54,6 +70,7 @@ export default function Calendar() {
     });
 
     setSelectedEvents(eventsOnSelectedDate);
+    console.log(eventsOnSelectedDate)
     setIsListModalOpen(true);
     setIsEventModalOpen(false);
   };
@@ -98,9 +115,7 @@ export default function Calendar() {
       events={events}
       eventClick={(clickInfo) => {
     const { event } = clickInfo;
-    if (event.start && event.extendedProps.description && event.extendedProps.createdBy && event.extendedProps.eventType && event.extendedProps.createdAt && event.extendedProps.updatedAt) {
-      handleEditEvent(event as unknown as FullCalendarEvent);
-    }
+    handleEditEvent(events.filter((e) => e.id === event.id)[0]);
   }}
     eventClassNames={(info) => {
       return getEventClassName(info.event.extendedProps ? info.event.extendedProps.eventType : 0);

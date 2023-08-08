@@ -19,7 +19,7 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="flex flex-col items-center p-8 bg-white rounded-lg shadow-md max-w-sm w-full"
       >
-        <img className="w-36 mb-5" src="images/prd_logo.png" alt="Logo" />
+        <img className="w-36 mb-5" src="logo.png" alt="Logo" />
         <input
           className="block w-full p-2.5 mb-5 border border-e0e0e0 rounded-md text-lg"
           type="text"

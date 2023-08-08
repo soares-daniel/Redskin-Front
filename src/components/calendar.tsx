@@ -70,7 +70,6 @@ export default function Calendar() {
     });
 
     setSelectedEvents(eventsOnSelectedDate);
-    console.log(eventsOnSelectedDate)
     setIsListModalOpen(true);
     setIsEventModalOpen(false);
   };

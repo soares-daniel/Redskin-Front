@@ -21,7 +21,6 @@ export default function AdminPage() {
 
   const handleUpdatedUser = (updatedUser: User) => {
     setSelectedUser(updatedUser);
-    console.log("updatedUser", updatedUser);
   };
 
   return (

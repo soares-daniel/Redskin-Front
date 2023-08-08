@@ -14,7 +14,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-red-100"> {/* Changed background color here */}
+    <div className="flex justify-center items-center h-screen bg-red-50"> {/* Changed background color here */}
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center p-8 bg-white rounded-lg shadow-md max-w-sm w-full"

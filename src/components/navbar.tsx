@@ -6,10 +6,10 @@ import { FC, useContext } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
-import ThemeButton from "./ThemeButton";
 import { useCookies } from "react-cookie";
 import RolesContext from "./RolesContext";
 import UsersContext from "./UserContext";
+import {useLogout} from "@/hooks/useLogout";
 
 export default function Navbar() {
   const [cookies, setCookie, removeCookie] = useCookies(['userId']);
@@ -19,20 +19,14 @@ export default function Navbar() {
   const user= usersContext?.users || null;
   const router = useRouter();
   const pathname = usePathname();
+  const { logout, error } = useLogout();
 
-  const logout = () => {
-
-    removeCookie('userId');
-
-    if (typeof window !== 'undefined') {
-      localStorage.clear();
-    }
-
-    router.push('/login');
-  };
+  const handleLogout = async () => {
+    await logout();
+  }
 
   return (
-    <nav className="w-full flex items-center justify-between p-4 shadow-md rounded-[15px] bg-red-50"> 
+    <nav className="w-full flex items-center justify-between p-4 shadow-md rounded-[15px] bg-red-50">
       <Image src="/logo.png" alt="Logo PRD" width={80} height={80} className="mr-4" />
   
       <div className="flex items-center gap-4">
@@ -61,14 +55,11 @@ export default function Navbar() {
         <div className="text-black-600">
         
           </div>
-        <button onClick={logout} className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all duration-300">
+        <button onClick={handleLogout} className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all duration-300">
           Logout
         </button>
       </div>
     </nav>
   );
-  
-
-  
   };
   

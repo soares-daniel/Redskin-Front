@@ -5,63 +5,70 @@
 import { FC, useContext } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 import ThemeButton from "./ThemeButton";
-import { de } from "date-fns/locale";
 import { useCookies } from "react-cookie";
 import RolesContext from "./RolesContext";
+import UsersContext from "./UserContext";
 
 export default function Navbar() {
   const [cookies, setCookie, removeCookie] = useCookies(['userId']);
   const rolesContext = useContext(RolesContext);
+  const usersContext = useContext(UsersContext);
   const userRoles = rolesContext?.userRoles || [];
+  const user= usersContext?.users || null;
   const router = useRouter();
   const pathname = usePathname();
 
   const logout = () => {
-    // Remove the user ID cookie
+
     removeCookie('userId');
 
-    // Clear local storage
     if (typeof window !== 'undefined') {
       localStorage.clear();
     }
 
-    // Redirect the user to the login page
     router.push('/login');
   };
 
   return (
-    <nav className="w-full flex items-center justify-between p-6 pb-10 shadow-md rounded-[15px] bg-red-50">
-      <div className="flex gap-4">
+    <nav className="w-full flex items-center justify-between p-4 shadow-md rounded-[15px] bg-red-50"> 
+      <Image src="/logo.png" alt="Logo PRD" width={80} height={80} className="mr-4" />
+  
+      <div className="flex items-center gap-4">
         <Link href="/dashboard">
           <div
             className={`${
-              pathname === "/dashboard" ? "text-blue-600" : "text-gray-700"
-            } cursor-pointer`}
+              pathname === "/dashboard" ? "text-black-600" : "text-gray-700"
+            } cursor-pointer bg-[#FAEFEF] p-2 rounded-md shadow-lg hover:bg-gray-300 transition-all duration-300`}
           >
-            Dashboard
+            Calendar
           </div>
         </Link>
   
-        {/* Conditionally render the Admin link */}
+        {/* Conditional render for Admin link */}
         {userRoles.some(role => role.name === 'admin') && (
           <Link href="/admin">
             <div
               className={`${
-                pathname === "/admin" ? "text-blue-600" : "text-gray-700"
-              } cursor-pointer`}
+                pathname === "/admin" ? "text-black-600" : "text-gray-700"
+              } cursor-pointer bg-[#FAEFEF] p-2 rounded-md shadow-lg hover:bg-gray-300 transition-all duration-300`}
             >
               Admin
             </div>
           </Link>
         )}
-  
-      </div>
-      <div className="flex items-center gap-4">
-        <button onClick={logout}>Logout</button>
+        <div className="text-black-600">
+        
+          </div>
+        <button onClick={logout} className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-all duration-300">
+          Logout
+        </button>
       </div>
     </nav>
   );
+  
+
   
   };
   

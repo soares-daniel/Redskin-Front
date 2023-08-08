@@ -1,6 +1,6 @@
 // EditUserModal.tsx
 
-import React, { useContext, useState, useEffect } from 'react';  // Import useEffect
+import React, { useContext, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import UserContext, { User } from '@/components/UserContext';
 
@@ -15,26 +15,28 @@ type EditUserModalProps = {
   isOpen: boolean;
   onRequestClose: () => void;
   user: User;
-  setSelectedUser: (user: User) => void;
+  onUserUpdate: (updatedUser: User) => void;
 };
 
-export default function EditUserModal({ isOpen, onRequestClose, user, setSelectedUser }: EditUserModalProps) {
+export default function EditUserModal({ isOpen, onRequestClose, user, onUserUpdate }: EditUserModalProps) {
   const userContext = useContext(UserContext);
-  const [username, setUsername] = useState(user.username || '');
-  const [firstName, setFirstName] = useState(user.firstName || '');
-  const [lastName, setLastName] = useState(user.lastName || '');
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-  useEffect(() => { // effect when user prop changes
-    setUsername(user.username || '');
-    setFirstName(user.firstName || '');
-    setLastName(user.lastName || '');
-  }, [user]);
+  useEffect(() => {
+    if (isOpen) {
+      setUsername(user.username || '');
+      setFirstName(user.firstName || '');
+      setLastName(user.lastName || '');
+    }
+  }, [isOpen, user]);
 
   if (!userContext) {
     return null;
   }
 
-  const { editUser, refetch } = userContext;
+  const { editUser } = userContext
 
   const isFormValid = username !== '' || firstName !== '' || lastName !== '';
 
@@ -50,20 +52,11 @@ export default function EditUserModal({ isOpen, onRequestClose, user, setSelecte
     if (lastName) editedUser.lastName = lastName;
 
     if (isFormValid) {
-      await editUser(editedUser);
-    
-    await refetch();
-
-    if (userContext.users) {
-      const updatedUser = userContext.users.find(u => u.id === user.id);
-      setSelectedUser(updatedUser || user);
-    }
-
-    onRequestClose();
-    // Clear form values
-    setUsername('');
-    setFirstName('');
-    setLastName('');
+      const updatedUserFromAPI = await editUser(editedUser);
+      if (updatedUserFromAPI) {
+        onUserUpdate(updatedUserFromAPI);
+      }
+      onRequestClose();
     }
   };
 

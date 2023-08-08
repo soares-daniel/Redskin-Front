@@ -9,12 +9,12 @@ export type Role = {
 
 interface RolesContextProps {
   roles: Role[]; // allRoles
-  userRoles: Role[]; // roles of selected user
+  userRoles: Role[]; // user specific roles
   loading: boolean;
   error: Error | null;
   refetch: () => Promise<void>;
-  assignRole?: (userId: number, roleId: number) => void; // function to assign role
-  removeRole?: (userId: number, roleId: number) => void; // function to remove role
+  assignRole?: (userId: number, roleId: number) => void; 
+  removeRole?: (userId: number, roleId: number) => void; 
 }
 
 const RolesContext = createContext<RolesContextProps | null>(null);

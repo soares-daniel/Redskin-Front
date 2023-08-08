@@ -4,15 +4,14 @@ import { useContext, useState } from "react";
 import { User } from "@/components/UserContext";
 import RolesContext from '@/components/RolesContext';
 import UsersContext from '@/components/UserContext';
-import useUsersData from "@/hooks/useUserData";
 import EditUserModal from "@/app/(dashboard)/admin/components/editUserModal";
 
 type UserDetailsProps = {
   user: User | null;
-  setSelectedUser: (user: User) => void;
+  onUserUpdate: (updatedUser: User) => void;
 };
 
-export default function UserDetails({ user, setSelectedUser }: UserDetailsProps) {
+export default function UserDetails({ user, onUserUpdate }: UserDetailsProps) {
   const usersContext = useContext(UsersContext);
   const rolesContext = useContext(RolesContext);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -102,10 +101,8 @@ export default function UserDetails({ user, setSelectedUser }: UserDetailsProps)
           isOpen={isEditModalOpen} 
           onRequestClose={() => setIsEditModalOpen(false)}
           user={user}
-          setSelectedUser={setSelectedUser}
-      />
+          onUserUpdate={onUserUpdate}
+        />
     </div>
   );
-  
-  
 }

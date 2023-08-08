@@ -27,7 +27,7 @@ export interface User {
     refetch: () => Promise<void>;
     deleteUser: (userId: number) => Promise<void>;
     createUser: (username: string, firstName: string, lastName: string, password: string) => Promise<User>;
-    editUser: ({ userId, username, firstName, lastName }: UserParams) => Promise<any>;
+    editUser: ({ userId, username, firstName, lastName }: UserParams) => Promise<User>;
   }
 
 const UsersContext = createContext<UsersContextProps | null>(null);

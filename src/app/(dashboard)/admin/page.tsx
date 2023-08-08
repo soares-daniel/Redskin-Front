@@ -12,17 +12,17 @@ import useRolesData from "@/hooks/useRolesData";
 
 export default function AdminPage() {
   const usersData = useUsersData();
-  const { deleteUser, createUser } = usersData;
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const rolesData = useRolesData(selectedUser?.id);
 
-  const [forceRender, setForceRender] = useState(false);
-
   const handleUserClick = (user: User) => {
     setSelectedUser(user);
-    setForceRender(!forceRender);
   };
-  console.log("Selected User:", selectedUser);
+
+  const handleUpdatedUser = (updatedUser: User) => {
+    setSelectedUser(updatedUser);
+    console.log("updatedUser", updatedUser);
+  };
 
   return (
     <UsersContext.Provider value={usersData}> 
@@ -33,11 +33,7 @@ export default function AdminPage() {
               <UsersList onUserClick={handleUserClick} />
             </div>
             <div className="w-3/4 overflow-y-auto h-screen p-4">
-            <UserDetails 
-                key={`${selectedUser?.id}-${selectedUser?.extendedProps?.updatedAt || ''}`} 
-                user={selectedUser} 
-                setSelectedUser={setSelectedUser} 
-            />
+            <UserDetails user={selectedUser} onUserUpdate={handleUpdatedUser} />
             </div>
           </div>
         </Layout>

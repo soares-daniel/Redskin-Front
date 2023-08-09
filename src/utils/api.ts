@@ -5,20 +5,21 @@ import { NotAuthorizedError, NotFoundError, UnknownError } from "./errors";
 export async function fetchData(
     url: string,
     method: string = 'GET',
-    body?: object,
+    body?: BodyInit | object,
+    headers?: HeadersInit
   ) {
     const baseUrl = `${process.env.NEXT_PUBLIC_API_PROTOCOL}://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}${process.env.NEXT_PUBLIC_API_BASE_PATH}`;
     const options: RequestInit = {
       method,
-      headers: {
+
+      headers: headers || {
         'Content-Type': 'application/json',
+        'authorization': 'Bearer undefined'
       },
       credentials: 'include',
     };
     
-    if (body && (method === 'POST' || method === 'PUT')) {
-      options.body = JSON.stringify(body);
-    }
+    body && (options.body = body.toString());
 
     const response = await fetch(`${baseUrl}${url}`, options);
   

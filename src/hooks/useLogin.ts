@@ -13,11 +13,19 @@ export function useLogin() {
   const { refetch: refetchEventTypes } = useGetEventTypes();
 
   const login = async (username: string, password: string) => {
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+    formData.append("grant_type", "password");
+
+    const body: BodyInit = new URLSearchParams({
+      'username': username,
+      'password': password,
+      'grant_type': 'password'
+    });
+
     try {
-      const data = await fetchData('/authorization/login', 'POST', {
-        username,
-        password,
-      });
+      const data = await fetchData('/authorization/login', 'POST', body, { 'Content-Type': 'application/x-www-form-urlencoded' });
 
       // Store the user ID in a cookie
       setCookie('userId', data.id, { path: '/', sameSite: 'strict'});

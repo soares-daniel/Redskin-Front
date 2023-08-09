@@ -12,7 +12,7 @@ export default function useAssignRole() {
       setError(null);
   
       try {
-        const data = await fetchData(`/users/user/${userId}/assign/${roleId}`, 'POST');
+        const data = await fetchData(`/admin/user/${userId}/assign/role/${roleId}`, 'POST');
         return data;
       } catch (error) {
         if (error instanceof Error) {

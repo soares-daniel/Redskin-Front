@@ -12,7 +12,7 @@ export default function useDeleteUser() {
       setError(null);
   
       try {
-        const data = await fetchData(`/users/delete/${userId}`, 'DELETE');
+        const data = await fetchData(`/admin/delete/user/${userId}`, 'DELETE');
         return data;
       } catch (error) {
         if (error instanceof Error) {

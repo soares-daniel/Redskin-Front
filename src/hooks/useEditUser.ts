@@ -21,7 +21,7 @@ export default function useEditUser() {
     if (lastName) body.lastName = lastName;
 
     try {
-      return await fetchData(`/users/update/${userId}`, 'PUT', body);
+      return await fetchData(`/admin/update/user/${userId}`, 'PUT', body);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

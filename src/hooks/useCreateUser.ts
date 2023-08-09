@@ -12,7 +12,7 @@ export default function useCreateUser() {
       setError(null);
   
       try {
-        const data = await fetchData(`/users/create`, 'POST', {
+        const data = await fetchData(`/admin/create/user`, 'POST', {
           username,
           firstName,
           lastName,

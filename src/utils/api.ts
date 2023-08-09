@@ -18,8 +18,11 @@ export async function fetchData(
       },
       credentials: 'include',
     };
-    
-    body && (options.body = body.toString());
+
+    // if body equals an object, stringify it
+    body && typeof body === 'object' && (options.body = JSON.stringify(body));
+    // if body equals a BodyInit (string, blob, or buffer), set it
+    body && typeof body !== 'object' && (options.body = body.toString());
 
     const response = await fetch(`${baseUrl}${url}`, options);
   

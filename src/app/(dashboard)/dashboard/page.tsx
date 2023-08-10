@@ -18,10 +18,11 @@ import { FullCalendarEvent } from "@/utils/eventTransform";
 import useRolesData from "@/hooks/useRolesData";
 import useGetUserRoles from '@/hooks/useGetUserRoles';
 import RolesContext from "@/components/RolesContext";
+import withAuth from "@/components/withPrivateRoute";
 
 
 
-export default function Dashboard() {
+function Dashboard() {
   const router = useRouter();
   const { data: fetchedEvents, loading, error, addEvent, updateEvent, deleteEvent } = useEventsData();
   const { eventTypes, loading: eventTypesLoading, error: eventTypesError } = useGetEventTypes();
@@ -89,3 +90,5 @@ export default function Dashboard() {
     </RolesContext.Provider>
 );
 }
+
+export default withAuth(Dashboard);

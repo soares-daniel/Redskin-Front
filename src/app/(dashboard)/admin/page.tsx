@@ -9,8 +9,9 @@ import UserDetails from "@/components/UserDetails";
 import { useState } from "react";
 import RolesContext from "@/components/RolesContext";
 import useRolesData from "@/hooks/useRolesData";
+import withAdmin from "@/components/withAdminPriv";
 
-export default function AdminPage() {
+function AdminPage() {
   const usersData = useUsersData();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const rolesData = useRolesData(selectedUser?.id);
@@ -40,3 +41,5 @@ export default function AdminPage() {
     </UsersContext.Provider>
   );
 }
+
+export default withAdmin(AdminPage);

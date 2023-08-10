@@ -19,10 +19,10 @@ export async function fetchData(
       credentials: 'include',
     };
 
-    // if body equals an object, stringify it
-    body && typeof body === 'object' && (options.body = JSON.stringify(body));
-    // if body equals a BodyInit (string, blob, or buffer), set it
-    body && typeof body !== 'object' && (options.body = body.toString());
+    // if body is URLSearchParams toString it else stringify it
+    if (body) {
+        options.body = body instanceof URLSearchParams ? body.toString() : JSON.stringify(body);
+    }
 
     const response = await fetch(`${baseUrl}${url}`, options);
   

@@ -12,7 +12,7 @@ export default function useRemoveRole() {
       setError(null);
   
       try {
-        const data = await fetchData(`admin/user/${userId}/remove/role/${roleId}`, 'DELETE');
+        const data = await fetchData(`/admin/user/${userId}/remove/role/${roleId}`, 'POST');
         return data;
       } catch (error) {
         if (error instanceof Error) {

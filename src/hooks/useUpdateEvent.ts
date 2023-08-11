@@ -37,6 +37,7 @@ export default function useUpdateEvent() {
       } else {
         setError('An unknown error occurred');
       }
+      throw error; // Rethrow error for useEventsData
     } finally {
       setLoading(false);
     }

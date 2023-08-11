@@ -22,3 +22,11 @@ export class NotFoundError extends Error {
     this.name = ErrorTypes.NOT_FOUND;
   }
 }
+
+export class Forbidden extends Error {
+  constructor() {
+    super('Forbidden');
+    this.name = ErrorTypes.FORBIDDEN;
+    console.log('Forbidden');
+  }
+}

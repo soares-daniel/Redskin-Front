@@ -13,4 +13,4 @@ export default function Home() {
 
   return null;
 }
-// Compare this snippet from src/pages/dashboard.tsx:
+

@@ -6,12 +6,16 @@ import { useFetchEvents } from './useFetchEvents';
 import useDeleteEvent from './useDeleteEvent';
 import useUpdateEvent from './useUpdateEvent';
 import useCreateEvent from './useCreateEvent';
+import { useError } from '@/components/ErrorContext';
+import { co } from '@fullcalendar/core/internal-common';
+import { set } from 'date-fns';
 
 type NewEvent = Omit<FullCalendarEvent, 'id' | 'extendedProps'> & {
   extendedProps: Omit<FullCalendarEvent['extendedProps'], 'createdBy' | 'createdAt' | 'updatedAt'>
 };
 
 export default function useEventsData() {
+  const { setError } = useError();
   const [data, setData] = useState<FullCalendarEvent[]>([]);
   const { data: apiData, loading, error, refetch } = useFetchEvents();
   const { deleteEvent: deleteEventApi } = useDeleteEvent();
@@ -60,10 +64,15 @@ export default function useEventsData() {
           return [...prevData, transformEvents([newEvent])[0]];
         });
       }
-    } catch (error) {
-      console.error('Failed to add event:', error);
-      // If the API call fails, remove the temporary event from the state
+    } catch (err) {
+      console.error('Failed to add event:', err);
       setData(prevData => prevData.filter(e => e.id !== tempId));
+    
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('An unknown error occurred while adding an event.'));
+      }
     }
   };
 
@@ -75,11 +84,16 @@ export default function useEventsData() {
 
     try {
       await deleteEventApi(eventId);
-    } catch (error) {
-      console.error('Failed to delete event:', error);
+    } catch (err) {
+      console.error('Failed to delete event:', err);
       // Revert the changes only if eventToBeDeleted is defined
       if (eventToBeDeleted) {
         setData(prevData => [...prevData, eventToBeDeleted]);
+      }
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('An unknown error occurred while deleting an event.'));
       }
     }
   };
@@ -103,11 +117,16 @@ export default function useEventsData() {
       if (updatedEventData) {
         setData(prevData => prevData.map(event => event.id === updatedEvent.id ? transformEvents([updatedEventData])[0] : event));
       }
-    } catch (error) {
-      console.error('Failed to update event:', error);
+    } catch (err) {
+      console.error('Failed to update event:', err);
       // Revert the changes only if oldEvent is defined
       if (oldEvent) {
         setData(prevData => prevData.map(event => event.id === oldEvent.id ? oldEvent : event));
+      }
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('An unknown error occurred while adding an event.'));
       }
     }
   };

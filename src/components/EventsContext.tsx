@@ -1,4 +1,4 @@
-import React from 'react';
+import { createContext } from 'react';
 import { FullCalendarEvent } from '@/utils/eventTransform' // replace with your actual types path
 
 export interface EventParams {
@@ -14,7 +14,7 @@ type NewEvent = Omit<FullCalendarEvent, 'id' | 'extendedProps'> & {
     extendedProps: Omit<FullCalendarEvent['extendedProps'], 'createdBy' | 'createdAt' | 'updatedAt'>
   };
   
-export const EventsContext = React.createContext<{
+export const EventsContext = createContext<{
     events: FullCalendarEvent[];
     addEvent: (event: NewEvent) => void;
     updateEvent: (newEvent: FullCalendarEvent, oldEvent: FullCalendarEvent) => void;

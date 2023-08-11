@@ -19,6 +19,8 @@ import useRolesData from "@/hooks/useRolesData";
 import useGetUserRoles from '@/hooks/useGetUserRoles';
 import RolesContext from "@/components/RolesContext";
 import withAuth from "@/components/withPrivateRoute";
+import withErrorProvider from "@/components/withErrorProvider";
+
 
 
 
@@ -91,4 +93,4 @@ function Dashboard() {
 );
 }
 
-export default withAuth(Dashboard);
+export default withAuth(withErrorProvider(Dashboard));

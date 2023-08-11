@@ -30,15 +30,16 @@ export default function useCreateEvent() {
       });
       setCreatedEvent(data);
       return data;
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('An unknown error occurred');
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('An unknown error occurred');
+        }
+        throw error; // Rethrow error for useEventsData
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
   };
 
   return { createEvent, loading, error, createdEvent };

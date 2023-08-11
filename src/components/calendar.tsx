@@ -14,6 +14,7 @@ import { EventsContext } from './EventsContext';
 import useWindowSize from '@/hooks/useWindowSize';
 import { getEventClassName  } from '@/utils/eventColor';
 import {EventImpl} from "@fullcalendar/core/internal";
+import { useError } from './ErrorContext';
 
 function transformEvent(event: EventImpl): FullCalendarEvent {
     return {
@@ -41,6 +42,14 @@ export default function Calendar() {
   const [eventToEdit, setEventToEdit] = useState<FullCalendarEvent | undefined>(undefined);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
   const { width, height } = useWindowSize();
+  const { error, setError } = useError();
+
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+      setError(null);
+    }
+  }, [error, setError]);
 
 
   const customButtons = {

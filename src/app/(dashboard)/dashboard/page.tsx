@@ -16,29 +16,38 @@ import { useGetEventTypes } from '@/hooks/useGetEventTypes';
 import FilterDropdown from "@/components/filterDropdown";
 import { FullCalendarEvent } from "@/utils/eventTransform";
 import useRolesData from "@/hooks/useRolesData";
-import useGetUserRoles from '@/hooks/useGetUserRoles';
 import RolesContext from "@/components/RolesContext";
 import withAuth from "@/components/withPrivateRoute";
 import withErrorProvider from "@/components/withErrorProvider";
-
+import { useError } from '@/components/ErrorContext';
 
 
 
 function Dashboard() {
   const router = useRouter();
-  const { data: fetchedEvents, loading, error, addEvent, updateEvent, deleteEvent } = useEventsData();
+  const { error, setError } = useError();
+  const { data: fetchedEvents, loading, error: eventError, addEvent, updateEvent, deleteEvent } = useEventsData();
   const { eventTypes, loading: eventTypesLoading, error: eventTypesError } = useGetEventTypes();
   const [events, setEvents] = useState<FullCalendarEvent[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<FullCalendarEvent[]>([]);
   const [cookies] = useCookies(['userId']);
   const userId = cookies.userId;
   const { userRoles, loading: rolesLoading, error: rolesError, ...otherRolesData } = useRolesData(userId)
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   useEffect(() => {
-    if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
+    if (eventError && eventError.name === ErrorTypes.NOT_AUTHORIZED) {
       router.push('/login');
     }
   }, [error, router]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+      //setIsModalOpen(true);
+      setError(null);
+    }
+  }, [error, setError]);
 
     useEffect(() => {
       setEvents(fetchedEvents);

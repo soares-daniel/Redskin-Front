@@ -27,23 +27,16 @@ export async function fetchData(
     const response = await fetch(`${baseUrl}${url}`, options);
     
     if (!response.ok) {
-        let errorText = '';
-        try {
-            const errorResponse = await response.json();
-            errorText = errorResponse.message || '';
-        } catch (e) {
-            console.error('Failed to parse error response:', e);
-        }
     
         switch (response.status) {
             case 401:
-                throw new NotAuthorizedError(errorText);
+                throw new NotAuthorizedError("errorText");
             case 403:
-                throw new Forbidden(errorText);
+                throw new Forbidden("You don't have permission to access this resource");
             case 404:
-                throw new NotFoundError(errorText);
+                throw new NotFoundError("errorText");
             default:
-                throw new UnknownError(errorText);
+                throw new UnknownError("errorText");
         }
     }
 

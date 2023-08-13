@@ -4,8 +4,8 @@
 import Layout from "@/components/layout";
 import UsersContext, { User } from "@/components/UserContext";
 import useUsersData from "@/hooks/useUserData";
-import UsersList from "@/components/userList";
-import UserDetails from "@/components/UserDetails";
+import UsersList from "@/app/(dashboard)/admin/components/userList";
+import UserDetails from "@/app/(dashboard)/admin/components/UserDetails";
 import { useState } from "react";
 import RolesContext from "@/components/RolesContext";
 import useRolesData from "@/hooks/useRolesData";

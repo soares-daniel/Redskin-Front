@@ -21,6 +21,7 @@ import withAuth from "@/components/withPrivateRoute";
 import withErrorProvider from "@/components/withErrorProvider";
 import { useError } from '@/components/ErrorContext'
 import ErrorModal from "@/components/ErrorModal";
+import CurrentUserRolesContext from "@/components/CurrentUserRolesContext";
 
 
 
@@ -77,6 +78,7 @@ function Dashboard() {
 
 
   return (
+    <CurrentUserRolesContext.Provider value={{ ...otherRolesData, userRoles, roles: otherRolesData.roles, loading: rolesLoading, error: rolesError }}>
     <RolesContext.Provider value={{ ...otherRolesData, userRoles, roles: otherRolesData.roles, loading: rolesLoading, error: rolesError }}>
       <UserIdContext.Provider value={userId}>
         <EventTypesContext.Provider value={eventTypes}>
@@ -103,6 +105,7 @@ function Dashboard() {
         </EventTypesContext.Provider>
       </UserIdContext.Provider>
     </RolesContext.Provider>
+    </CurrentUserRolesContext.Provider>
 );
 }
 

@@ -10,11 +10,16 @@ import { useState } from "react";
 import RolesContext from "@/components/RolesContext";
 import useRolesData from "@/hooks/useRolesData";
 import withAdmin from "@/components/withAdminPriv";
+import CurrentUserRolesContext from "@/components/CurrentUserRolesContext";
+import { useCookies } from "react-cookie";
 
 function AdminPage() {
   const usersData = useUsersData();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const rolesData = useRolesData(selectedUser?.id);
+  const [cookies] = useCookies(['userId']);
+  const userId = cookies.userId;
+  const { userRoles, loading: rolesLoading, error: rolesError, ...otherRolesData } = useRolesData(userId)
 
   const handleUserClick = (user: User) => {
     setSelectedUser(user);
@@ -25,6 +30,7 @@ function AdminPage() {
   };
 
   return (
+    <CurrentUserRolesContext.Provider value={{ ...otherRolesData, userRoles, roles: otherRolesData.roles, loading: rolesLoading, error: rolesError }}>
     <UsersContext.Provider value={usersData}> 
       <RolesContext.Provider value={rolesData}>
         <Layout>
@@ -39,6 +45,7 @@ function AdminPage() {
         </Layout>
       </RolesContext.Provider>
     </UsersContext.Provider>
+    </CurrentUserRolesContext.Provider>
   );
 }
 

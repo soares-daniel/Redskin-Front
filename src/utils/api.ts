@@ -30,13 +30,13 @@ export async function fetchData(
     
         switch (response.status) {
             case 401:
-                throw new NotAuthorizedError("errorText");
+                throw new NotAuthorizedError();
             case 403:
-                throw new Forbidden("You don't have permission to access this resource");
+                throw new Forbidden();
             case 404:
-                throw new NotFoundError("errorText");
+                throw new NotFoundError();
             default:
-                throw new UnknownError("errorText");
+                throw new UnknownError();
         }
     }
 

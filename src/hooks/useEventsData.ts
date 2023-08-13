@@ -15,7 +15,7 @@ type NewEvent = Omit<FullCalendarEvent, 'id' | 'extendedProps'> & {
 };
 
 export default function useEventsData() {
-  const { setError, errorMessage } = useError();
+  const { setError } = useError();
   const [data, setData] = useState<FullCalendarEvent[]>([]);
   const { data: apiData, loading, error, refetch } = useFetchEvents();
   const { deleteEvent: deleteEventApi } = useDeleteEvent();
@@ -69,7 +69,7 @@ export default function useEventsData() {
       setData(prevData => prevData.filter(e => e.id !== tempId));
     
       if (err instanceof Error) {
-        setError(err, err.message);
+        setError(err);
       } else {
         setError(new Error('An unknown error occurred while adding an event.'));
       }
@@ -124,7 +124,7 @@ export default function useEventsData() {
         setData(prevData => prevData.map(event => event.id === oldEvent.id ? oldEvent : event));
       }
       if (err instanceof Error) {
-        setError(err, err.message);
+        setError(err);
       } else {
         setError(new Error('An unknown error occurred while adding an event.'));
       }

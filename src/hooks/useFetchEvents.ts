@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { fetchData } from '@/utils/api';
-
+import { useError } from '@/components/ErrorContext';
 export function useFetchEvents() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  //const [error, setError] = useState<Error | null>(null);
+  const { error, setError } = useError();
 
   const fetchEvents = async () => {
     try {
@@ -21,7 +22,7 @@ export function useFetchEvents() {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, []); 
 
   const refetch = async () => {
     setLoading(true);

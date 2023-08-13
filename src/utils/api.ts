@@ -25,17 +25,25 @@ export async function fetchData(
     }
 
     const response = await fetch(`${baseUrl}${url}`, options);
-
+    
     if (!response.ok) {
+        let errorText = '';
+        try {
+            const errorResponse = await response.json();
+            errorText = errorResponse.message || '';
+        } catch (e) {
+            console.error('Failed to parse error response:', e);
+        }
+    
         switch (response.status) {
             case 401:
-                throw new NotAuthorizedError();
+                throw new NotAuthorizedError(errorText);
             case 403:
-                throw new Forbidden();
+                throw new Forbidden(errorText);
             case 404:
-                throw new NotFoundError();
+                throw new NotFoundError(errorText);
             default:
-                throw new UnknownError();
+                throw new UnknownError(errorText);
         }
     }
 

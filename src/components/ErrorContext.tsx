@@ -16,6 +16,7 @@ interface ErrorProviderProps {
 export const ErrorProvider: React.FC<ErrorProviderProps> = ({ children }) => {
   const [error, setError] = useState<Error | null>(null);
 
+  
   return (
     <ErrorContext.Provider value={{ error, setError }}>
       {children}

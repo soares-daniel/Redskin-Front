@@ -31,7 +31,6 @@ export default function ErrorModal({ isOpen, onRequestClose, errorMessage }: Err
         <h2 className="modal-header">An Error occured</h2>
       <div className={`errmodal ${isOpen ? 'is-open' : ''}`}>
         <div className="errmodal-content">
-          <h2>Error</h2>
           <p>{errorMessage}</p>
           <button onClick={onRequestClose} className="modal-close-button bg-red-500 bg-opacity-60 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
         </div>

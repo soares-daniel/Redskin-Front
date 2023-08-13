@@ -19,7 +19,8 @@ import useRolesData from "@/hooks/useRolesData";
 import RolesContext from "@/components/RolesContext";
 import withAuth from "@/components/withPrivateRoute";
 import withErrorProvider from "@/components/withErrorProvider";
-import { useError } from '@/components/ErrorContext';
+import { useError } from '@/components/ErrorContext'
+import ErrorModal from "@/components/ErrorModal";
 
 
 
@@ -34,17 +35,17 @@ function Dashboard() {
   const userId = cookies.userId;
   const { userRoles, loading: rolesLoading, error: rolesError, ...otherRolesData } = useRolesData(userId)
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  useEffect(() => {
-    if (eventError && eventError.name === ErrorTypes.NOT_AUTHORIZED) {
-      router.push('/login');
-    }
-  }, [error, router]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 
   useEffect(() => {
     if (error) {
-      alert(error.message);
-      //setIsModalOpen(true);
+      //alert(error.message);
+      setErrorMessage(error.message);
+      setIsModalOpen(true);
+      if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
+        router.push('/login');
+      }
       setError(null);
     }
   }, [error, setError]);
@@ -89,6 +90,9 @@ function Dashboard() {
                   <div className="overflow-y-auto flex-1"> 
                     <EventCard />
                   </div>
+                  <ErrorModal 
+                    isOpen={isModalOpen}
+                    onRequestClose={() => setIsModalOpen(false)} errorMessage={errorMessage}                   />
                 </div>
                 <div id="calendar-container" className="w-3/4 mx-auto p-2 shadow-lg h-full p-4">
                   <Calendar/>

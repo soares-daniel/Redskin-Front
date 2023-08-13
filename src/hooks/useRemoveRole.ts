@@ -20,6 +20,7 @@ export default function useRemoveRole() {
         } else {
           setError('An unknown error occurred');
         }
+        throw error;
       } finally {
         setLoading(false);
       }

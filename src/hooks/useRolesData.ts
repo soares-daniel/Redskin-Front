@@ -6,8 +6,10 @@ import { Role } from "@/components/RolesContext";
 import useAssignRole from "./useAssignRole";
 import useRemoveRole from "./useRemoveRole";
 import { useGetRoles } from "./useGetRoles";
+import { useError } from "@/components/ErrorContext";
 
 export default function useRolesData(userId?: number) {
+  const { setError } = useError();
   const { data, loading: fetchLoading, error: fetchError, fetchRoles } = useGetUserRoles(userId);
   const { assignRole, loading: assignLoading, error: assignError } = useAssignRole();
   const { removeRole, loading: removeLoading, error: removeError } = useRemoveRole();
@@ -27,6 +29,21 @@ export default function useRolesData(userId?: number) {
                   (typeof assignError === 'string' ? new Error(assignError) : assignError) || 
                   (typeof removeError === 'string' ? new Error(removeError) : removeError) ||
                   allRolesError;
+/*
+  const fetchUserRoles = async (userId: number) => {
+    try {
+      await fetchRoles();
+    } catch (err) {
+      console.log("Error fetching user roles: ", err);
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('An unknown error occurred'));
+      }
+      throw err; // rethrowing the error for the calling component to handle/display it
+    }
+  };
+*/
 
   const optimisticAssignRole = async (userId: number, roleId: number) => {
     
@@ -40,10 +57,16 @@ export default function useRolesData(userId?: number) {
     try {
       await assignRole(userId, roleId);
       // Optionally, you might want to refetch data here for consistency
-    } catch (error) {
+    } catch (err) {
+      console.log("Error assigning role: ", err);
       // Rollback the optimistic update if there's an error
       setUserRoles(prevRoles => prevRoles.filter(role => role.id !== roleId));
-      throw error; // rethrowing the error for the calling component to handle/display it
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('An unknown error occurred'));
+      }
+      throw err; // rethrowing the error for the calling component to handle/display it
     }
   };
 
@@ -57,12 +80,18 @@ export default function useRolesData(userId?: number) {
     try {
       await removeRole(userId, roleId);
       // Optionally, you might want to refetch data here for consistency
-    } catch (error) {
+    } catch (err) {
+      console.log("Error removing role: ", err);
       // Rollback the optimistic update if there's an error
       if (roleToRemove) {
         setUserRoles(prevRoles => [...prevRoles, roleToRemove]);
       }
-      throw error; // rethrowing the error for the calling component to handle/display it
+      if (err instanceof Error) {
+        setError(err);
+      } else {
+        setError(new Error('An unknown error occurred'));
+      }
+      throw err; // rethrowing the error for the calling component to handle/display it
     }
   };
 

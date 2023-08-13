@@ -1,10 +1,11 @@
 // src/components/UserDetails.tsx
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { User } from "@/components/UserContext";
 import RolesContext from '@/components/RolesContext';
 import UsersContext from '@/components/UserContext';
 import EditUserModal from "@/app/(dashboard)/admin/components/editUserModal";
+import { useError } from '@/components/ErrorContext';
 
 type UserDetailsProps = {
   user: User | null;
@@ -16,6 +17,7 @@ export default function UserDetails({ user, onUserUpdate }: UserDetailsProps) {
   const rolesContext = useContext(RolesContext);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<number | null>(null);
+  const { error: err, setError } = useError();
 
   if (!user || !rolesContext || !usersContext) {
     return <div className="text-lg text-center py-5">Select a user to see details</div>;
@@ -23,6 +25,14 @@ export default function UserDetails({ user, onUserUpdate }: UserDetailsProps) {
   const { users, loading, error: usersError, refetch: refetchUser, createUser, deleteUser } = usersContext;
 
   const { roles, userRoles, assignRole, removeRole, refetch: refetchRoles } = rolesContext;
+
+  useEffect(() => {
+    if (err) {
+      console.log("error in user details");
+      alert(err.message);
+      setError(null);
+    }
+  }, [err, setError]);
 
   const handleAssignRole = (roleId: number) => {
     if (user && assignRole) {

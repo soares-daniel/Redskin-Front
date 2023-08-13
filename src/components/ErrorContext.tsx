@@ -22,6 +22,7 @@ export const ErrorProvider: React.FC<ErrorProviderProps> = ({ children }) => {
 };
 
 export const useError = () => {
+  console.log('new error in context');
   const context = useContext(ErrorContext);
   if (!context) {
     throw new Error('useError must be used within an ErrorProvider');

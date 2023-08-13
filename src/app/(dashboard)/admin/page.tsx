@@ -10,6 +10,8 @@ import { useState } from "react";
 import RolesContext from "@/components/RolesContext";
 import useRolesData from "@/hooks/useRolesData";
 import withAdmin from "@/components/withAdminPriv";
+import withErrorProvider from "@/components/withErrorProvider";
+
 
 function AdminPage() {
   const usersData = useUsersData();
@@ -42,4 +44,4 @@ function AdminPage() {
   );
 }
 
-export default withAdmin(AdminPage);
+export default withAdmin(withErrorProvider(AdminPage));

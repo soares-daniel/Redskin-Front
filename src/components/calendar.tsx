@@ -96,6 +96,7 @@ export default function Calendar() {
         isOpen={isUpdateModalOpen} 
         onRequestClose={() => setIsUpdateModalOpen(false)}
         eventToEdit={eventToEdit}
+        onDelete={handleDeleteEvent}
       />
     <FullCalendar
       height={height ? height - 150 : 'auto'}

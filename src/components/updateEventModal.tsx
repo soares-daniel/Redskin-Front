@@ -11,10 +11,11 @@ type UpdateEventModalProps = {
   isOpen: boolean;
   onRequestClose: () => void;
   eventToEdit?: FullCalendarEvent;
+  onDelete: (event: FullCalendarEvent) => void;
 };
 
-export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }: UpdateEventModalProps) {
-  const { updateEvent } = useContext(EventsContext);
+export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit, onDelete }: UpdateEventModalProps) {
+  const { updateEvent, deleteEvent } = useContext(EventsContext);
   const eventTypes = useContext(EventTypesContext);
   const [eventType, setEventType] = useState(eventToEdit ? Number(eventToEdit.extendedProps.eventType) : 0);
   const [title, setTitle] = useState(eventToEdit ? eventToEdit.title : '');
@@ -78,6 +79,12 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
     onRequestClose();
   };
 
+  const handleDelete = (event: FullCalendarEvent) => {
+    onDelete(event);
+    onRequestClose();
+  }
+
+
   return (
     <Modal 
       isOpen={isOpen} 
@@ -102,6 +109,17 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
     >
       <h2 className="modal-header">Update Event</h2>
       <button onClick={onRequestClose} className="modal-close-button bg-red-500 bg-opacity-60 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
+      <button 
+        onClick={() => {
+          if (eventToEdit) {
+            handleDelete(eventToEdit);
+          }
+        }} 
+        className="modal-delete-button bg-red-500 bg-opacity-60 text-white p-1 rounded hover:bg-red-600 absolute top-4 left-4"
+      >
+        Delete
+      </button>
+
       <form onSubmit={handleSubmit}>
       <div className="form-field">
             <label>

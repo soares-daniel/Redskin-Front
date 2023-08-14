@@ -64,17 +64,22 @@ function Dashboard() {
         )
       );
     }
-    
+    const handleRefresh = (e: { preventDefault: () => void; }) => {
+      e.preventDefault();
+      window.location.reload();
+  };
+  
   
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading || rolesLoading || eventTypesLoading ) return <p>Loading...</p>;
   if (error) return null;
   if (!Array.isArray(events)) return <p>No events to display</p>;
-  if (eventTypesLoading) return <p>Loading event types...</p>;
-  if (eventTypesError) return <p>Error fetching event types.</p>;
-  if (rolesLoading) return <p>Loading user roles...</p>;
-  if (rolesError) return <p>Error fetching user roles.</p>;
+  if (eventTypesError || rolesError) return (
+      <p>
+        Error accessing data. Please <a href="#" onClick={handleRefresh} style={{color: "blue", textDecoration: "underline", cursor: "pointer"}}>retry</a>.
+      </p>
+    );
 
 
   return (

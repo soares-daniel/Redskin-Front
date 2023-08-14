@@ -49,6 +49,12 @@ function AdminPage() {
     setSelectedUser(updatedUser);
   };
 
+  const handleRefresh = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    window.location.reload();
+};
+
+
   return (
     <CurrentUserRolesContext.Provider value={{ ...otherRolesData, userRoles, roles: otherRolesData.roles, loading: rolesLoading, error: rolesError }}>
     <UsersContext.Provider value={usersData}> 

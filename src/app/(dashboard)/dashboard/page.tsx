@@ -25,6 +25,7 @@ import CurrentUserRolesContext from "@/components/CurrentUserRolesContext";
 
 
 
+
 function Dashboard() {
   const router = useRouter();
   const { error, setError } = useError();
@@ -41,7 +42,6 @@ function Dashboard() {
 
   useEffect(() => {
     if (error) {
-      //alert(error.message);
       setErrorMessage(error.message);
       setIsModalOpen(true);
       if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {

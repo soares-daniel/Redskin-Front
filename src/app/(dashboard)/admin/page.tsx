@@ -6,20 +6,40 @@ import UsersContext, { User } from "@/components/UserContext";
 import useUsersData from "@/hooks/useUserData";
 import UsersList from "@/app/(dashboard)/admin/components/userList";
 import UserDetails from "@/app/(dashboard)/admin/components/UserDetails";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RolesContext from "@/components/RolesContext";
 import useRolesData from "@/hooks/useRolesData";
 import withAdmin from "@/components/withAdminPriv";
 import CurrentUserRolesContext from "@/components/CurrentUserRolesContext";
 import { useCookies } from "react-cookie";
+import withErrorProvider from "@/components/withErrorProvider";
+import { useError } from '@/components/ErrorContext'
+import ErrorModal from "@/components/ErrorModal";
+import { useRouter } from "next/navigation";
+import { ErrorTypes } from "@/types/errorTypes";
 
 function AdminPage() {
   const usersData = useUsersData();
+  const router = useRouter();
+  const { error, setError } = useError();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const rolesData = useRolesData(selectedUser?.id);
   const [cookies] = useCookies(['userId']);
   const userId = cookies.userId;
   const { userRoles, loading: rolesLoading, error: rolesError, ...otherRolesData } = useRolesData(userId)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (error) {
+      setErrorMessage(error.message);
+      setIsModalOpen(true);
+      if (error && error.name === ErrorTypes.NOT_AUTHORIZED) {
+        router.push('/login');
+      }
+      setError(null);
+    }
+  }, [error, setError]);
 
   const handleUserClick = (user: User) => {
     setSelectedUser(user);
@@ -49,4 +69,4 @@ function AdminPage() {
   );
 }
 
-export default withAdmin(AdminPage);
+export default withAdmin(withErrorProvider(AdminPage));

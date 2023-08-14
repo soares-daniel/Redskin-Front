@@ -58,6 +58,10 @@ function AdminPage() {
             <div className="w-1/4 overflow-y-auto h-screen p-4">
               <UsersList onUserClick={handleUserClick} />
             </div>
+            <ErrorModal 
+                    isOpen={isModalOpen}
+                    onRequestClose={() => setIsModalOpen(false)} errorMessage={errorMessage}
+            />
             <div className="w-3/4 overflow-y-auto h-screen p-4">
             <UserDetails user={selectedUser} onUserUpdate={handleUpdatedUser} />
             </div>

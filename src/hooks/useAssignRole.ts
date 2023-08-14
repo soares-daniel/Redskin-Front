@@ -20,6 +20,7 @@ export default function useAssignRole() {
         } else {
           setError('An unknown error occurred');
         }
+        throw error;
       } finally {
         setLoading(false);
       }

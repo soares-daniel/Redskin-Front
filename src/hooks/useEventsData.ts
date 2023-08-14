@@ -7,8 +7,6 @@ import useDeleteEvent from './useDeleteEvent';
 import useUpdateEvent from './useUpdateEvent';
 import useCreateEvent from './useCreateEvent';
 import { useError } from '@/components/ErrorContext';
-import { co } from '@fullcalendar/core/internal-common';
-import { set } from 'date-fns';
 
 type NewEvent = Omit<FullCalendarEvent, 'id' | 'extendedProps'> & {
   extendedProps: Omit<FullCalendarEvent['extendedProps'], 'createdBy' | 'createdAt' | 'updatedAt'>

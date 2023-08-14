@@ -1,5 +1,4 @@
 // api.ts
-
 import { Forbidden, NotAuthorizedError, NotFoundError, UnknownError } from "./errors";
 
 export async function fetchData(
@@ -24,10 +23,22 @@ export async function fetchData(
         options.body = body instanceof URLSearchParams ? body.toString() : JSON.stringify(body);
     }
 
-    const response = await fetch(`${baseUrl}${url}`, options);
+    let response: Response;
+
+    try {
+        response = await fetch(`${baseUrl}${url}`, options);
+    } catch (error) {
+        // This error occurs when the network is offline, the request was blocked, etc.
+        //! used because different browser throw different errors
+        if (error instanceof TypeError && (error.message.includes("Failed to fetch") || error.message.includes("NetworkError"))) {
+            throw new Error("Network error. Please check your connection.");
+        } else {
+            // rethrow if something else
+            throw error;
+        }
+    }
     
     if (!response.ok) {
-    
         switch (response.status) {
             case 401:
                 throw new NotAuthorizedError();
@@ -36,6 +47,7 @@ export async function fetchData(
             case 404:
                 throw new NotFoundError();
             default:
+                console.log("this the default error");
                 throw new UnknownError();
         }
     }

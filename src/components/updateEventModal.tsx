@@ -22,13 +22,28 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
   const [startDate, setStartDate] = useState(eventToEdit ? formatDateTime(eventToEdit.start) : '');
   const [endDate, setEndDate] = useState(eventToEdit ? formatDateTime(eventToEdit.end) : '');
 
-  const isFormValid = eventType !== 0 && title !== '' && startDate !== '' && endDate !== '';
+  const isStartDateBeforeEndDate = () => {
+    const startDateTime = new Date(startDate);
+    const endDateTime = new Date(endDate);
+  
+    return startDateTime < endDateTime;
+  };
+
+  const isFormValid = eventType !== 0 && 
+  title !== '' && 
+  startDate !== '' && 
+  endDate !== '' && 
+  isStartDateBeforeEndDate();
+
 
   function formatDateTime(date: Date) {
     const offset = date.getTimezoneOffset();
     const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
     return adjustedDate.toISOString().slice(0, 16);
   }
+
+
+  
 
   useEffect(() => {
     if (eventToEdit) {
@@ -146,7 +161,10 @@ export default function UpdateEventModal({ isOpen, onRequestClose, eventToEdit }
           </label>
         </div>
         <button type="submit" disabled={!isFormValid} className={!isFormValid ? 'disabled-button' : ''}>Update</button>
-        {!isFormValid && <p className="error-message">Please fill out all required fields</p>}
+        {!isFormValid && <p className="error-message">
+          Please fill out all required fields<br />
+          Please check that start and end dates are correct
+        </p>}
       </form>
     </Modal>
   );

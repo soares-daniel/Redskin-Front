@@ -25,6 +25,7 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+
   const resetForm = () => {
     setEventType(0);
     setTitle('');
@@ -33,7 +34,15 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
     setEndDate('');
   };
 
-  const isFormValid = eventType !== 0 && title !== '' && startDate !== '' && endDate !== '';
+  const isStartDateBeforeEndDate = () => {
+    const startDateTime = new Date(startDate);
+    const endDateTime = new Date(endDate);
+  
+    return startDateTime < endDateTime;
+  };
+  
+
+  const isFormValid = eventType !== 0 && title !== '' && startDate !== '' && endDate !== '' && isStartDateBeforeEndDate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,7 +87,7 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
       }}
     >
       <h2 className="modal-header">Create Event</h2>
-      <button onClick={resetForm} className="modal-close-button bg-blue-500 bg-opacity-60 text-white p-1 rounded hover:bg-blue-600 absolute top-4 left-4">Reset Form</button>
+      <button onClick={resetForm} className="modal-reset-button bg-blue-500 bg-opacity-60 text-white p-1 rounded hover:bg-blue-600 absolute top-4 left-4">Reset Form</button>
       <button onClick={onRequestClose} className="modal-close-button bg-red-500 bg-opacity-60 text-white p-1 rounded hover:bg-red-600 absolute top-4 right-4">Close</button>
       <form onSubmit={handleSubmit}>
         <div className="form-field">
@@ -138,7 +147,11 @@ export default function CreateEventModal({ isOpen, onRequestClose }: CreateEvent
           </label>
         </div>
         <button type="submit" disabled={!isFormValid} className={!isFormValid ? 'disabled-button' : ''}>Create</button>
-        {!isFormValid && <p className="error-message">Please fill out all required fields</p>}
+        {!isFormValid && <p className="error-message">
+          Please fill out all required fields<br />
+          Please check that start and end dates are correct
+        </p>}
+
       </form>
     </Modal>
   );
